@@ -12,20 +12,22 @@ import javax.swing.JPanel;
  * @author carli
  */
 public class Inicio extends javax.swing.JFrame {
-
+    Map<String, Map<String, String>> schuldle;
     String route;
     
     public Inicio() 
     {   
-        Map<String, String> mapeo = new HashMap<String, String>();
+        Map<String, String> mapeo = new HashMap<String, String>(Map.of("Nombre", "Carlos Orrego", "identificación", "1089931383"));
         MultimediaApi config = new MultimediaApi();
         config.config(this);
         config.configPanelTop(this);
         config.privateData(this, mapeo);
-        
+        Test Seeder = new Test();
+        Restrictions privateShow = new Restrictions();
         initComponents();
+        JPanel panelActor = privateShow.tableReder(tableInicio, "profesor");
         JPanel[] panel = {lunes, martes, miercoles, jueves,  viernes};
-        config.schuldleOrganice(panel, null);
+        config.schuldleOrganice(panel, Seeder.llenado());
         
     }
 
@@ -43,14 +45,13 @@ public class Inicio extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         changePhoto = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        tableInicio = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
         lunes = new javax.swing.JPanel();
         martes = new javax.swing.JPanel();
         miercoles = new javax.swing.JPanel();
         jueves = new javax.swing.JPanel();
         viernes = new javax.swing.JPanel();
-        jPanel3 = new javax.swing.JPanel();
 
         jMenu1.setText("jMenu1");
 
@@ -77,7 +78,7 @@ public class Inicio extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("SansSerif", 1, 24)); // NOI18N
         jLabel2.setText("Bienvenido -- Nombre persona --");
 
-        jTabbedPane1.setBackground(new java.awt.Color(255, 255, 255));
+        tableInicio.setBackground(new java.awt.Color(255, 255, 255));
 
         jPanel2.setBackground(new java.awt.Color(231, 242, 255));
 
@@ -91,7 +92,7 @@ public class Inicio extends javax.swing.JFrame {
         );
         lunesLayout.setVerticalGroup(
             lunesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 302, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
 
         martes.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -104,7 +105,7 @@ public class Inicio extends javax.swing.JFrame {
         );
         martesLayout.setVerticalGroup(
             martesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 302, Short.MAX_VALUE)
         );
 
         miercoles.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -163,29 +164,14 @@ public class Inicio extends javax.swing.JFrame {
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lunes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(martes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(miercoles, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(viernes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jueves, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(lunes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        jTabbedPane1.addTab("Horario", jPanel2);
-
-        jPanel3.setBackground(new java.awt.Color(231, 242, 255));
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 480, Short.MAX_VALUE)
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 304, Short.MAX_VALUE)
-        );
-
-        jTabbedPane1.addTab("Clases", jPanel3);
+        tableInicio.addTab("Horario", jPanel2);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -199,7 +185,7 @@ public class Inicio extends javax.swing.JFrame {
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(29, 29, 29)
-                        .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 480, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(tableInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 480, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
                 .addComponent(changePhoto, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(52, 52, 52))
@@ -216,7 +202,7 @@ public class Inicio extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(tableInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(43, Short.MAX_VALUE))
         );
 
@@ -265,12 +251,11 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JPanel jueves;
     private javax.swing.JPanel lunes;
     private javax.swing.JPanel martes;
     private javax.swing.JPanel miercoles;
+    private javax.swing.JTabbedPane tableInicio;
     private javax.swing.JPanel viernes;
     // End of variables declaration//GEN-END:variables
 }

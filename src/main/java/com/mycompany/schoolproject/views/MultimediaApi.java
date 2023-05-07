@@ -1,11 +1,10 @@
 package com.mycompany.schoolproject.views;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Toolkit;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -16,6 +15,7 @@ import javax.swing.JTextArea;
 public class MultimediaApi {
     public void config(JFrame root)
     {
+        
         String rootRoute = System.getProperty("user.dir");
         rootRoute = rootRoute + "\\src\\main\\java\\com\\mycompany\\schoolproject\\files\\icono.png";
         Image icono = Toolkit.getDefaultToolkit().getImage(rootRoute); 
@@ -28,6 +28,7 @@ public class MultimediaApi {
     
     public void configPanelTop(JFrame root)
     {
+        // Definimos el tamaño de la venta que se ingresa por parametros 
         root.setSize(769, 500);
         // Se instancia panel y se agrega las siguientes confiraciones
         /*
@@ -123,28 +124,65 @@ public class MultimediaApi {
         //empaquetamos el texto a la pantalla 
         frame.pack();
     }
-    public void schuldleOrganice(JPanel[] arrayPanel, Map<String, Map<String, String>> schuldle)
+    
+    // Esta funcion recibe dos parametros recibe los paneles de los dias y recibe un Map que me da los dias, con sus horas y materias 
+    public void schuldleOrganice(JPanel[] arrayPanel, LinkedHashMap<String, LinkedHashMap<Integer, String>> schuldle)
     {
-        
-        String[] days = {"Lunes", "Martes", "Miércoles", "Jueves", "Viernes"};
+        // Definimos los dias que iran en los Labels
+        String[] days = {"Lunes", "Martes", "Miercoles", "Jueves", "Viernes"};
+        // contador de la lista dias 
         int count = 0; 
+        // itera los paneles para agregales las funcionalidades 
         for(JPanel panel: arrayPanel){
+            // Se define la fuente de los label
             Font font = new Font("sielf", Font.BOLD, 12);
-            JLabel label = new JLabel(days[count]);
+            // Esta variable guardara el dia y se ira cambiando a medida que el contador aumente 
+            String day = days[count];
+            // Definimos un label que tendra como texto el dia 
+            JLabel label = new JLabel(day);
+            // le damos un estilo a la letra 
             label.setFont(font);
+            // Se el dan las coordenadas al label de que pocision llevara 
             label.setBounds(20, 0, 70, 40);
+            // Agregamos al panel el label, -> las configuraciones ya las tiene el label
             panel.add(label);
+            // Aumentamos el contador 
             count++;
-        }
-        /*
-        for(String key: schuldle.keySet()) // itera los dias
-        {
-            for (String key2: schuldle.get(key).keySet()) // este for itera las horas de la clase y la materia
+            // Convertimos el dia a minuscula para usarlo como clave en el Map  
+            day = day.toLowerCase();
+            // Definimos las cordenadas y tamaños, y lo usaremos de la siguiente manera 
+            /*
+            1. Cada dia tiene 6 horas y materias, cada hora se almacenara en un label
+            2. con las cooredenada le damos coordenada X y Y y le añadimos un width y height
+            3. Dejamos el array predefinido y se itera con un contador 
+            */
+            int coordenates[][] = {
+                {0, 40, 85, 40},
+                {0, 80, 85, 40},
+                {0, 120, 85, 40},
+                {0, 160, 85, 40},
+                {0, 200, 85, 40}, 
+                {0, 240, 85, 40}
+            };
+            // iterador de las coordenadas
+            int position = 0; 
+            // Realizamos un for sobre el map iterando sus llaves que son interador osea las horas de 1 -> 6
+            for(Integer key : schuldle.get(day.toLowerCase()).keySet())
             {
-                
+                // Asinamos al label su hora y al lado materia y lo condensamos en un label que se mostrara
+                JLabel info = new JLabel(key + " : " + schuldle.get(day.toLowerCase()).get(key));
+                // le damos un font
+                info.setFont(font);
+                // le damos la pocision apoyandonos en el array de coordenadas 
+                info.setBounds(coordenates[position][0], coordenates[position][1], coordenates[position][2], coordenates[position][3]);
+                // aumentamos pocision para que itere el array de coordenadas 
+                position++;
+                // Añadimos el label al panel 
+                panel.add(info);
             }
         }
-        */
+        
+        
     }
             
 }                    

@@ -31,12 +31,10 @@
                   <Component id="jLabel5" pref="108" max="32767" attributes="0"/>
               </Group>
               <EmptySpace min="37" pref="37" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="103" groupAlignment="1" attributes="0">
-                      <Component id="password" min="-2" pref="135" max="-2" attributes="0"/>
-                      <Component id="nameUser" alignment="1" min="-2" pref="135" max="-2" attributes="0"/>
-                  </Group>
-                  <Component id="rolUser" alignment="1" min="-2" pref="135" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Component id="nameUser" pref="135" max="32767" attributes="0"/>
+                  <Component id="rolUser" alignment="0" pref="135" max="32767" attributes="0"/>
+                  <Component id="password" max="32767" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
           </Group>
@@ -110,8 +108,6 @@
     </Component>
     <Component class="javax.swing.JTextField" name="nameUser">
     </Component>
-    <Component class="javax.swing.JTextField" name="password">
-    </Component>
     <Component class="javax.swing.JLabel" name="jLabel3">
       <Properties>
         <Property name="text" type="java.lang.String" value="Nombre de Usuario"/>
@@ -148,6 +144,8 @@
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
       </AuxValues>
+    </Component>
+    <Component class="javax.swing.JPasswordField" name="password">
     </Component>
   </SubComponents>
 </Form>
