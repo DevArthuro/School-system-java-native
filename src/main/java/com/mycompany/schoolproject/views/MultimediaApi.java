@@ -123,8 +123,28 @@ public class MultimediaApi {
         //empaquetamos el texto a la pantalla 
         frame.pack();
     }
-    public void schuldleOrganice()
+    public void schuldleOrganice(JPanel[] arrayPanel, Map<String, Map<String, String>> schuldle)
     {
         
+        String[] days = {"Lunes", "Martes", "Miércoles", "Jueves", "Viernes"};
+        int count = 0; 
+        for(JPanel panel: arrayPanel){
+            Font font = new Font("sielf", Font.BOLD, 12);
+            JLabel label = new JLabel(days[count]);
+            label.setFont(font);
+            label.setBounds(20, 0, 70, 40);
+            panel.add(label);
+            count++;
+        }
+        /*
+        for(String key: schuldle.keySet()) // itera los dias
+        {
+            for (String key2: schuldle.get(key).keySet()) // este for itera las horas de la clase y la materia
+            {
+                
+            }
+        }
+        */
     }
-}
+            
+}                    
