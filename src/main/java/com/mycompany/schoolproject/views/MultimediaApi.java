@@ -2,11 +2,15 @@ package com.mycompany.schoolproject.views;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 
 
 public class MultimediaApi {
@@ -19,6 +23,7 @@ public class MultimediaApi {
         root.setIconImage(icono);
         root.setResizable(false);
         root.getContentPane().setBackground(Color.white);
+        root.setLayout(null);
     }
     
     public void configPanelTop(JFrame root)
@@ -31,8 +36,8 @@ public class MultimediaApi {
         3. le retiramos el layout para ordenar por coordenadas
         */
         JPanel panel = new JPanel();
+        panel.setBounds(0, 0, 765, 55);
         panel.setBackground(Color.gray);
-        panel.setPreferredSize(new Dimension(765, 55));
         panel.setLayout(null);
         
         /*
@@ -90,6 +95,36 @@ public class MultimediaApi {
         root.getContentPane().add(panel);
         // empaquetamos el panel y se guarda el cambio 
         root.pack();
+        
+    }
+    
+    public void privateData(JFrame frame, Map<String, String> dataUser)
+    {
+        // definimos la variable que ordenara el texto
+        String textoData = ""; 
+        // Hacemos un iterador sobre los dato y vamos armando el texto
+        for(String llave: dataUser.keySet())
+        {
+            textoData += llave + " : " + dataUser.get(llave) + "\n";
+        }
+        // definimos el text area donde se mostrara los datos por pantalla
+        JTextArea texto = new JTextArea();
+        // agregamos el texto, ordenado 
+        texto.append(textoData);
+        // Hacemos que el textarea nose pueda editar
+        texto.setEditable(false);
+        // definimos la coordenada donde ira el text area en el frame 
+        texto.setBounds(550, 260, 180, 205);
+        // le definimos una fuente 
+        Font fuente = new Font("Arial", Font.BOLD, 12);
+        texto.setFont(fuente);// agregamos la fuente 
+        // le mandamos el text area al frame 
+        frame.getContentPane().add(texto);
+        //empaquetamos el texto a la pantalla 
+        frame.pack();
+    }
+    public void schuldleOrganice()
+    {
         
     }
 }

@@ -5,10 +5,7 @@
 package com.mycompany.schoolproject.views;
 
 
-/**
- *
- * @author carli
- */
+
 public class Login extends javax.swing.JFrame {
 
     public Login() {
