@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Calendar;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -105,14 +106,19 @@ public class Restrictions {
         //Agregamos en un label estatico la fecha actual, que hace referncia a la hora incio de examen 
         // Obtener la fecha actual
         LocalDate today = LocalDate.now();
+        LocalDateTime time = LocalDateTime.now();
+        int year = today.getYear(),
+            mounth = today.getMonthValue(),
+            day = today.getDayOfMonth(),
+            hour = time.getHour(), 
+            minute = time.getMinute();
         
-        // Imprimir la fecha actual en formato ISO
-        JLabel dateLocal = new JLabel(today.toString()); 
-        dateLocal.setBounds(150, 95, 140, 30);
+        JLabel dateLocal = new JLabel(day+ " / " + mounth + " / " + year  + " - " + hour + ":" + minute); 
+        dateLocal.setBounds(160, 95, 140, 30);
         panel.add(dateLocal);
         
-        JButton botonDateBegin = new JButton("Ingrese Fecha de comienzo");
-        botonDateBegin.setBounds(150, 130, 140, 30);
+        JButton botonDateBegin = new JButton("Fecha Final");
+        botonDateBegin.setBounds(150, 120, 140, 30);
         panel.add(botonDateBegin);
         botonDateBegin.addActionListener(new ActionListener() {
         @Override
@@ -122,6 +128,10 @@ public class Restrictions {
             System.out.println(fecha);
             }
         });
+        
+        JSpinner numberQuestions = new JSpinner();
+        numberQuestions.setBounds(150, 155, 60, 30);
+        panel.add(numberQuestions);
         
         // Creamos los labels con su nombre 
         JLabel label1 = new JLabel("Nombre Examen");
@@ -162,24 +172,41 @@ public class Restrictions {
             System.out.println("El usuario ha hecho clic en Aceptar");
         }
     }
+    
+    // Clase que lanza ventana emergente para seleccionar una fecha 
     public String giveDate() {
-        Date dateThisMoment = new Date();
-        int day = dateThisMoment.getDay();
+        // Instanciamos Calendar para tener un formato de fecha 
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.YEAR, Calendar.MONTH, day);
-        SpinnerDateModel dateModel = new SpinnerDateModel(calendar.getTime(), null, null, Calendar.DAY_OF_MONTH);
+        // Sacamos la fecha actual
+        LocalDate dateNow = LocalDate.now();
+        //insertamos en el calendario, las fechas actuales con la instancia de LocalDate
+        calendar.set(dateNow.getYear(), Calendar.DAY_OF_MONTH, dateNow.getDayOfMonth());
+        // Creamos un modelo de mostrar fecha le instertamos como fecha lo que definimos en calendar
+        /*
+        En los paratros hicimos lo siguiente 
+        - En valor insertamos la fecha actual 
+        - en comienzo y fin, lo anulamos 
+        - y en el ultimo modificamos el mes por el actual 
+        */
+        SpinnerDateModel dateModel = new SpinnerDateModel(calendar.getTime(), null, null, dateNow.getDayOfMonth());
+        // insertamos el modelo a un JSpinner 
         JSpinner spinner = new JSpinner(dateModel);
-        spinner.setEditor(new JSpinner.DateEditor(spinner, "dd/MM/yyyy")); // formato de fecha
-
+        // Le damos un formto al spinner para proyectar la fecha 
+        spinner.setEditor(new JSpinner.DateEditor(spinner, "dd-MM-yyyy - hh:mm")); // formato de fecha
+        //creamos el panel donde insertaremos el campo de JSppiner 
         JPanel panel = new JPanel();
+        // Lo agregamos al panel 
         panel.add(spinner);
-
+        // Definimos la ventana emergente y le insertamos el panel y le asignamos un boton unicamente 
         int result = JOptionPane.showOptionDialog(null, panel, "Seleccione una fecha", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
-
+        
+        // validamos si le dio al boton 
         if (result == JOptionPane.OK_OPTION) {
+            // Obtenemos lo que se puso en el Spinner en formato fecha
             Date date = (Date) spinner.getValue();
-            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy"); // formato de fecha
-            return format.format(date);
+            // Definimos el formato que queremos captar, o el que el usuario entro en el campo
+            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy hh:mm"); // formato de fecha
+            return format.format(date); // retornamos la hora de cierre
         } else {
             return null;
         }

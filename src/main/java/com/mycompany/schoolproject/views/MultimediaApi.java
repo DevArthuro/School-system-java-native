@@ -5,7 +5,6 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.util.LinkedHashMap;
-import java.util.Map;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -99,7 +98,7 @@ public class MultimediaApi {
         
     }
     
-    public void privateData(JFrame frame, Map<String, String> dataUser)
+    public void privateData(JFrame frame, LinkedHashMap<String, String> dataUser)
     {
         // definimos la variable que ordenara el texto
         String textoData = ""; 

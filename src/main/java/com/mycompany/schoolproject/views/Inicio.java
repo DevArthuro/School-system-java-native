@@ -4,30 +4,22 @@
  */
 package com.mycompany.schoolproject.views;
 
-import java.util.HashMap;
-import java.util.Map;
 import javax.swing.JPanel;
-/**
- *
- * @author carli
- */
+
 public class Inicio extends javax.swing.JFrame {
-    Map<String, Map<String, String>> schuldle;
-    String route;
     
     public Inicio() 
-    {   
-        Map<String, String> mapeo = new HashMap<String, String>(Map.of("Nombre", "Carlos Orrego", "identificación", "1089931383"));
+    {
         MultimediaApi config = new MultimediaApi();
         config.config(this);
         config.configPanelTop(this);
-        config.privateData(this, mapeo);
-        Test Seeder = new Test();
+        Test seeder = new Test();
+        config.privateData(this, seeder.datosUser());
         Restrictions privateShow = new Restrictions();
         initComponents();
         JPanel panelActor = privateShow.tableReder(tableInicio, "profesor");
         JPanel[] panel = {lunes, martes, miercoles, jueves,  viernes};
-        config.schuldleOrganice(panel, Seeder.llenado());
+        config.schuldleOrganice(panel, seeder.llenado());
         
     }
 

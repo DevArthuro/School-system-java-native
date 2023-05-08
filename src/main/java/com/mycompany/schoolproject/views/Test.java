@@ -58,4 +58,16 @@ public class Test {
        
        return schuldle;
    }
+   
+   public LinkedHashMap<String, String>  datosUser()
+   {
+       LinkedHashMap<String, String> mapeo = new LinkedHashMap<String, String>(){{
+           put("nombre", "carlos\n");
+           put("identificación", "1089931383\n");
+           put("telefono", "3142158642");
+           
+       }};
+       
+       return mapeo;
+   }
 }
