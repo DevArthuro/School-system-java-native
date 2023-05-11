@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.LinkedHashMap;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -49,6 +51,34 @@ public class MultimediaApi {
         JLabel outside = new JLabel();
         JLabel[] labels = {menuOptions, logo, outside}; 
         String[] images = {"menu45x45.png", "iconInicio45x45.png", "outside.png"};
+        
+        /*
+        DOM para el menu de navegaciòn, y generar interaciòn  
+        */
+        // DOM para desplegar opciones 
+        menuOptions.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                // Acción a realizar cuando se hace clic en el JLabel
+                System.out.println("Desplegar opciones");
+            }
+        });
+        
+        // DOM para volver a inicio
+        logo.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                // Acción a realizar cuando se hace clic en el JLabel
+                System.out.println("Volver a inicio");
+            }
+        });
+        
+        // DOM para salir de la interfaz
+        outside.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                // Acción a realizar cuando se hace clic en el JLabel
+                System.out.println("Salir");
+            }
+        });
+        
         
         /*
         1. array de coordenadas sobre cada label encima del panel 
