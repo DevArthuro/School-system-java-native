@@ -18,9 +18,15 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.SpinnerDateModel;
 import java.util.Date; 
+import java.util.LinkedHashMap;
 import javax.swing.JSpinner;
+import logica.ValidationExamProgram;
 
 public class Restrictions {
+    
+    // definimos una variable que espera el JTable, esta nos servira para interactuar con el usuario 
+    JTabbedPane tabla;
+    
     // funcion que modificara la tabla de opciones del inicio
     /*
     Recibe dos parametros 
@@ -29,8 +35,10 @@ public class Restrictions {
     
     Retorna el panel y este será modificado en otra función 
     */
+    String dateFinal;
     public JPanel tableReder(JTabbedPane tabla, String rol)
     {
+        this.tabla = tabla;
         // Instanciamos un panel para agregar al table
         JPanel panel = new JPanel();
         panel.setBackground(new java.awt.Color(231, 242, 255));
@@ -125,7 +133,7 @@ public class Restrictions {
         public void actionPerformed(ActionEvent e) {
             // Llamar a la función uploadExam()
             String fecha = giveDate();
-            System.out.println(fecha);
+            dateFinal = fecha;
             }
         });
         
@@ -169,7 +177,20 @@ public class Restrictions {
         // si el usuario da aceptar entra a este condicional 
         if (option == JOptionPane.OK_OPTION) {
             // El usuario ha hecho clic en el botón "Aceptar"
-            System.out.println("El usuario ha hecho clic en Aceptar");
+            // generamos un diccionarios con los campos del JOptionPane y con el dato captado 
+            LinkedHashMap validation = new LinkedHashMap<>()
+            {{
+                put("nameExam", nameText.getText());
+                put("options", materias.getSelectedIndex());
+                put("number", numberQuestions.getValue());
+                put("beginDate", dateLocal.getText());
+                put("finalDate", dateFinal);
+            }};
+            // generamos una instancia de una capa logica que nos ayudara a validar
+            ValidationExamProgram examValidation = new ValidationExamProgram();
+            // Pasamos la tabla para agregar el panel 
+            // agregamos un argumento de linkedhashmap que nos mandara los datos ingresador por el usuario 
+            examValidation.validateDateExam(this.tabla, validation);
         }
     }
     
@@ -211,5 +232,6 @@ public class Restrictions {
             return null;
         }
     }
+
 
 }
