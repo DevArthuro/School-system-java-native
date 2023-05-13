@@ -6,6 +6,8 @@ import java.util.LinkedHashMap;
 import javax.swing.JTabbedPane;
 
 public class ValidationExamProgram {
+    //Declaramos variables de clase para interactuar con el examen por toda la clase 
+    String name, materia, numeroPreguntas, dateLimit;
     // Está función lo que hace es validar si los datos que ingreso el usuario son validos
     public void validateDateExam(JTabbedPane tabla, LinkedHashMap dataProgram)
     {
@@ -13,37 +15,56 @@ public class ValidationExamProgram {
         exam.make(tabla);
         // captamos los datos en memoria para usarlos para fabricar el examen y validar 
         // aplicamos operador ternario por si el dato es nulo no cause error en el StringBuffer
-        StringBuffer name = new StringBuffer(dataProgram.get("nameExam") != null ? dataProgram.get("nameExam").toString() : "nulo");
-        StringBuffer materia = new StringBuffer(dataProgram.get("options") != null ? dataProgram.get("options").toString() : "nulo");
-        StringBuffer numeroPreguntas = new StringBuffer(dataProgram.get("number") != null ? dataProgram.get("number").toString() : "nulo");
-        StringBuffer beginDate = new StringBuffer(dataProgram.get("beginDate") != null ? dataProgram.get("beginDate").toString() : "nulo");
-        StringBuffer finalDate = new StringBuffer(dataProgram.get("finalDate") != null ? dataProgram.get("finalDate").toString() : "nulo");
+        this.name = dataProgram.get("nameExam") != null ? dataProgram.get("nameExam").toString() : "nulo";
+        this.materia = dataProgram.get("options") != null ? dataProgram.get("options").toString() : "nulo";
+        this.numeroPreguntas = dataProgram.get("number") != null ? dataProgram.get("number").toString() : "nulo";
+        String beginDate = dataProgram.get("beginDate") != null ? dataProgram.get("beginDate").toString() : "nulo";
+        String finalDate = dataProgram.get("finalDate") != null ? dataProgram.get("finalDate").toString() : "nulo";
         
-        System.out.println(beginDate + " : " + finalDate);
         convertToDate(beginDate, finalDate);
     }
     
-    public static void convertToDate(StringBuffer beginDate, StringBuffer finalDate)
+    public static void convertToDate(String beginDate, String finalDate)
     {
         
         // Comenzamos un proceso de normalización de la fecha pra poder ser comparada cada una por aparte a la misma vez 
         
-        String[] fechaInicio = beginDate.toString().replace('-', ' ').trim().split("/"); // convertimos fecha a string, remplazamos "-" por espacios vacios, quyitamos los espacios, y converimos a lista usando de referencia "/"
+        String[] dateBegin = beginDate.replace('-', ' ').trim().split("/"); // convertimos fecha a string, remplazamos "-" por espacios vacios, quyitamos los espacios, y converimos a lista usando de referencia "/"
         // Ahora iteramos la cadena para hacer un limpiado de datos mas profuncdo y remplazo
-        for (int i = 0; i < fechaInicio.length; i++) 
+        for (int i = 0; i < dateBegin.length; i++) 
         {
-            fechaInicio[i] = fechaInicio[i].trim();
+            dateBegin[i] = dateBegin[i].trim();
         }
         
-        System.out.println(Arrays.toString(fechaInicio));
         
-        String[] fechaFin = finalDate.toString().replace('-', ' ').trim().split("/"); // convertimos fecha a string, remplazamos "-" por espacios vacios, quyitamos los espacios, y converimos a lista usando de referencia "/"
+        String[] dateFinish = finalDate.replace('-', ' ').trim().split("/"); // convertimos fecha a string, remplazamos "-" por espacios vacios, quyitamos los espacios, y converimos a lista usando de referencia "/"
         // Ahora iteramos la cadena para hacer un limpiado de datos mas profuncdo y remplazo
-        for (int i = 0; i < fechaFin.length; i++) 
+        for (int i = 0; i < dateFinish.length; i++) 
         {
-            fechaFin[i] = fechaFin[i].trim();
+            dateFinish[i] = dateFinish[i].trim();
         }
         
-        System.out.println(Arrays.toString(fechaFin));
+        
+        // Atomizamos las fecha para que sean analizadas 
+        int 
+                dayFinish = Integer.parseInt(dateFinish[0]), 
+                monthFinish = Integer.parseInt(dateFinish[1]), 
+                yearFinish = Integer.parseInt(dateFinish[2].split(" ")[0]),
+                hourFinish = Integer.parseInt(dateFinish[2].split(" ")[1].split(":")[0]),
+                minuteFinish = Integer.parseInt(dateFinish[2].split(" ")[1].split(":")[1]);
+        
+        System.out.println(yearFinish + "-años " + monthFinish + "-meses " + dayFinish + "-dias " +hourFinish + "-horas " + minuteFinish + "-minutos ");
+        
+        // Se le agregan mas cosas a está cadena ya que tiene mas espaciado 
+        int 
+                dayBegin = Integer.parseInt(dateBegin[0]), 
+                monthBegin = Integer.parseInt(dateBegin[1]), 
+                yearBegin = Integer.parseInt(dateBegin[2].split(" ")[0]),
+                hourBegin = Integer.parseInt(dateBegin[2].replace("   ", " ").split(" ")[1].split(":")[0]),
+                minuteBegin = Integer.parseInt(dateBegin[2].replace("   ", " ").split(" ")[1].split(":")[1]);
+                
+                
+        System.out.println(yearBegin + "-años " + monthBegin + "-meses " + dayBegin + "-dias " +hourBegin + "-horas " + minuteBegin + "-minutos ");
+
     }
 }
