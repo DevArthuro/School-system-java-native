@@ -181,7 +181,7 @@ public class Restrictions {
             LinkedHashMap validation = new LinkedHashMap<>()
             {{
                 put("nameExam", nameText.getText());
-                put("options", materias.getSelectedIndex());
+                put("options", materias);
                 put("number", numberQuestions.getValue());
                 put("beginDate", dateLocal.getText());
                 put("finalDate", dateFinal);
@@ -209,7 +209,7 @@ public class Restrictions {
         - en comienzo y fin, lo anulamos 
         - y en el ultimo modificamos el mes por el actual 
         */
-        SpinnerDateModel dateModel = new SpinnerDateModel(calendar.getTime(), null, null, dateNow.getDayOfMonth());
+        SpinnerDateModel dateModel = new SpinnerDateModel(calendar.getTime(), null, null, dateNow.getMonthValue());
         // insertamos el modelo a un JSpinner 
         JSpinner spinner = new JSpinner(dateModel);
         // Le damos un formto al spinner para proyectar la fecha 

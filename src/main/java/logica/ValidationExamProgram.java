@@ -3,13 +3,16 @@ package logica;
 import com.mycompany.schoolproject.views.MakeToTheExams;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
+import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 
 public class ValidationExamProgram {
 
     //Declaramos variables de clase para interactuar con el examen por toda la clase 
-    String name, materia, numeroPreguntas, dateLimit;
-
+    String name,signature, dateLimit;
+    Integer numeroPreguntas;
+    
     // Está función lo que hace es validar si los datos que ingreso el usuario son validos
     public void validateDateExam(JTabbedPane tabla, LinkedHashMap dataProgram) {
         MakeToTheExams exam = new MakeToTheExams();
@@ -17,24 +20,56 @@ public class ValidationExamProgram {
         // captamos los datos en memoria para usarlos para fabricar el examen y validar 
         // aplicamos operador ternario por si el dato es nulo no cause error en el StringBuffer
         this.name = dataProgram.get("nameExam") != null ? dataProgram.get("nameExam").toString() : "nulo";
-        this.materia = dataProgram.get("options") != null ? dataProgram.get("options").toString() : "nulo";
-        this.numeroPreguntas = dataProgram.get("number") != null ? dataProgram.get("number").toString() : "nulo";
+        this.signature = this.validateAsignature((JComboBox) dataProgram.get("options")).toString();
+        this.numeroPreguntas = Integer.parseInt(dataProgram.get("number") != null ? dataProgram.get("number").toString() : "0");
         String beginDate = dataProgram.get("beginDate") != null ? dataProgram.get("beginDate").toString() : "nulo";
         String finalDate = dataProgram.get("finalDate") != null ? dataProgram.get("finalDate").toString() : "nulo";
-        
-        LinkedHashMap<String, String> date = new LinkedHashMap<String, String>()
-        {{
-            put("inicio", beginDate);
-            put("final", "");
-        }};
-        
+        // diccionario para verificar ñas fechas 
+        LinkedHashMap<String, String> data = new LinkedHashMap<String, String>();
+
         if (!(finalDate == "nulo"))
         {
-            System.out.println("Hola");
-            date = this.convertToDate(beginDate, finalDate);
-      
+            // Estas variables nos indican que lleno todos los campos por esa razón 
+            boolean validationsName = false, validationSignature = false;
+            data = this.convertToDate(beginDate, finalDate);
+            if (this.validateName(this.name.strip()))
+            {
+                validationsName = true;
+                data.put("name", this.name);;
+            }
+            else
+            {
+                JOptionPane.showConfirmDialog(null, "No lleno el campo de nombre");
+            }
+            if (this.signature != "false")
+            {
+                validationSignature = true;
+                data.put("asignature", this.signature);
+            }
+            else
+            {
+                JOptionPane.showConfirmDialog(null, "No validó la asignatura");
+            }
+            if(validationsName && validationSignature)
+            {
+                if (this.numeroPreguntas != 0)
+                {
+                    exam.make(tabla, data, this.numeroPreguntas);
+                }
+                else
+                {
+                    JOptionPane.showConfirmDialog(null, "Usted no hará ninguna pregunta");
+                }
+                
+            }
+                
         }
-        exam.make(tabla, date);
+        else
+        {
+            JOptionPane.showConfirmDialog(null, "No asigno fecha de cierre");
+        }
+        // Acá mandamos las variables a la ventana 
+        
     }
     
     // Configuramos las fechas y retornamos
@@ -67,8 +102,10 @@ public class ValidationExamProgram {
                 hourBegin = Integer.parseInt(dateBegin[2].replace("   ", " ").split(" ")[1].split(":")[0]),
                 minuteBegin = Integer.parseInt(dateBegin[2].replace("   ", " ").split(" ")[1].split(":")[1]);
         
-        // Aplicar conversión a hourFinish por hora militar para verificar el am y pm facilmente
-        hourFinish = this.validateTime(hourFinish);
+        // Aplicamos conversión de hora si hora es mayor a 12
+        hourFinish = hourBegin > 12 ? hourFinish = this.validateTime(hourFinish) : hourFinish;
+        
+        
         
         // Imprimimos la fecha de inicio y limite 
         String begin = dayBegin + "/" + (monthBegin < 10 ? "0"+monthBegin : monthBegin)  + "/" + yearBegin + " " + hourBegin + ":" + minuteBegin;
@@ -98,5 +135,30 @@ public class ValidationExamProgram {
         
         // retornamos la conversiób 
         return militaryTime.get(time);
+    }
+    
+    public boolean validateName(String name)
+    {
+        System.out.println("nombre" + name);
+        if (name == "")
+        {
+            return false;
+        }
+        return true;
+        
+    }
+    // Está función nos sirve para evaluar el JComboBox que el usuario seleccione
+    public Object validateAsignature(JComboBox options)
+    {
+        // Sinp señlecciona nada el indice es "0" y retornamos la función 
+        int index = options.getSelectedIndex();
+        if (index == 0)
+        {
+            return false;
+        }
+        // Sino entro en la condición anterior sacamos el elemento y lo retornamos 
+        String materia = options.getSelectedItem().toString();
+        
+        return materia;
     }
 }
