@@ -58,20 +58,23 @@ public class MakeToTheExams {
         Para guardar los elementos básicamente se guardan en un LinkedHashMap
         Se hara en una función aparte 
         */
-        // Grilla de pocisionamiento 
-        int heightPanel = 304; // height del panel para adaptarle un scroll bar 
+        // Grilla de pocisionamiento  
         Integer[] grid = {30, 100, 300, 40}; //grilla de pocisionamiento
         Font fontQuestionary = new Font("arial", Font.BOLD, 10);
-        JTextField[] texto = new JTextField[5];
+        JTextField[] textos = new JTextField[numberQuestions];
+        /*
+        REVISAR Y GUARDAR VALIDACIONES DE LOS ELEMENTOS 
+        */
+        //ButtonGroup[] buttonSelects = new ButtonGroup[numberQuestions];
         for(Integer pregunta = 1; pregunta <= numberQuestions; pregunta++)
         {
             int gridY = grid[1];
-            grid[1] += 100;
+            grid[1] += 150;
             
             // creación de elemtnos y configuración 
             JLabel numeroPregunta = new JLabel(pregunta.toString());
             JTextField campoPregunta = new JTextField();
-            texto[pregunta-1] = campoPregunta;
+            textos[pregunta-1] = campoPregunta;
             // configuracipones adicionales       
             numeroPregunta.setFont(fontQuestionary);
             campoPregunta.setFont(fontQuestionary);
@@ -80,32 +83,43 @@ public class MakeToTheExams {
             numeroPregunta.setBounds(grid[0], gridY, 30, 40);
             campoPregunta.setBounds(grid[0] + 30, gridY, 300, 30);
              
-            if (gridY > 300) // configuración del panel 
+            // Agregar opciones de respuesta a, b, c, d y la estructuración 
+            String[] letras = {"a", "b", "c", "d"};
+            // pocision de la grilla en y
+            int pos = 25;
+            //for para poner los botones
+            ButtonGroup grupo = new ButtonGroup();
+            for (int i = 0; i < 4; i++) 
             {
-                heightPanel += 120;
+                JTextField text = new JTextField();
+                text.setFont(fontQuestionary);
+                JRadioButton boton = new JRadioButton(letras[i]);
+                boton.setFont(fontQuestionary);
+                boton.setBounds(grid[0] + 30, gridY + pos, 40, 40);
+                text.setBounds(grid[0] + 70, gridY + pos+10, 300, 20);
+                panel.add(boton);
+                panel.add(text);
+                grupo.add(boton);
+                pos += 25;
             }
-            
             //agregar al panel 
             panel.add(numeroPregunta);
             panel.add(campoPregunta);
         }
+        int heightPanel = grid[1];// height del panel para adaptarle un scroll bar
         // boton enviar form
         JButton boton = new JButton("Enviar"); // boton para enviar form
         //agregar acción al boton
         boton.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-                System.out.println(texto[0].getText());
-                System.out.println(texto[1].getText());
-                System.out.println(texto[2].getText());
-                System.out.println(texto[3].getText());
-                System.out.println(texto[4].getText());
+                //
             }
         });
         // agregar boton
         int gridY = grid[1];
         heightPanel += 120;
-        boton.setBounds(30, gridY , 150, 40);
+        boton.setBounds(30, gridY + 30 , 150, 40);
         panel.add(boton);
         
         
