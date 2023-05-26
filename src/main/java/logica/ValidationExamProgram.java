@@ -52,7 +52,7 @@ public class ValidationExamProgram {
             }
             if(validationsName && validationSignature)
             {
-                if (this.numeroPreguntas != 0)
+                if (this.numeroPreguntas != 0 && this.numeroPreguntas > 0)
                 {
                     exam.make(tabla, data, this.numeroPreguntas);
                 }

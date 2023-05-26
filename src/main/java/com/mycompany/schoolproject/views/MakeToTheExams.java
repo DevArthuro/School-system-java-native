@@ -1,5 +1,6 @@
 package com.mycompany.schoolproject.views;
 
+import logica.ValidationTestTeacher;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -23,7 +24,6 @@ public class MakeToTheExams {
         // Poner color al panel 
         panel.setBackground(new java.awt.Color(231, 242, 255));
         
-
         Font font = new Font("arial", Font.BOLD, 20);
         JLabel tittlePanel = new JLabel("Nombre examen: " + data.get("name"));
         tittlePanel.setFont(font);
@@ -61,11 +61,14 @@ public class MakeToTheExams {
         // Grilla de pocisionamiento  
         Integer[] grid = {30, 100, 300, 40}; //grilla de pocisionamiento
         Font fontQuestionary = new Font("arial", Font.BOLD, 10);
-        JTextField[] textos = new JTextField[numberQuestions];
-        /*
-        REVISAR Y GUARDAR VALIDACIONES DE LOS ELEMENTOS 
-        */
-        //ButtonGroup[] buttonSelects = new ButtonGroup[numberQuestions];
+        
+        // Guarda las preguntas
+        LinkedHashMap<Integer, JTextField> textQuestions = new LinkedHashMap<>();
+        //Guarda los radio buttons osea las opciones a,b,c,d -> buscar la seleccionada
+        LinkedHashMap<Integer, JRadioButton[]> optionsLetters = new LinkedHashMap<>();
+        // Guarda los texto de las preguntas a,b,c,d pero especificamente los textos de cada radio button 
+        LinkedHashMap<Integer, JTextField[]> optionsText = new LinkedHashMap<>();
+        
         for(Integer pregunta = 1; pregunta <= numberQuestions; pregunta++)
         {
             int gridY = grid[1];
@@ -74,7 +77,7 @@ public class MakeToTheExams {
             // creación de elemtnos y configuración 
             JLabel numeroPregunta = new JLabel(pregunta.toString());
             JTextField campoPregunta = new JTextField();
-            textos[pregunta-1] = campoPregunta;
+            textQuestions.put(pregunta, campoPregunta);
             // configuracipones adicionales       
             numeroPregunta.setFont(fontQuestionary);
             campoPregunta.setFont(fontQuestionary);
@@ -87,33 +90,58 @@ public class MakeToTheExams {
             String[] letras = {"a", "b", "c", "d"};
             // pocision de la grilla en y
             int pos = 25;
+            
+            ButtonGroup grupo = new ButtonGroup(); // Agrupamos los JRadioButtons para que solo haya una selacción 
+            //Creación de listas almacenadoras y posterior agracion a los hashmap
+            JRadioButton[] buttonsLetter = new JRadioButton[4];
+            JTextField[] textFields = new JTextField[4];
             //for para poner los botones
-            ButtonGroup grupo = new ButtonGroup();
             for (int i = 0; i < 4; i++) 
             {
+                // declaración de elementos 
                 JTextField text = new JTextField();
-                text.setFont(fontQuestionary);
                 JRadioButton boton = new JRadioButton(letras[i]);
+                
+                // Configuraciones 
+                text.setFont(fontQuestionary);
                 boton.setFont(fontQuestionary);
+                
+                // Pocisionamiento de elementos 
                 boton.setBounds(grid[0] + 30, gridY + pos, 40, 40);
                 text.setBounds(grid[0] + 70, gridY + pos+10, 300, 20);
+                
+                // Agregación de elementos al panel
                 panel.add(boton);
                 panel.add(text);
+                
+                // Agregar los radio buttons 
                 grupo.add(boton);
+                
+                // Aumento de pocisiones en y
                 pos += 25;
+                
+                // Almacenaje de la botonera y su texto 
+                buttonsLetter[i] = boton;
+                textFields[i] = text;
             }
+            // Agregar elementos a diccionarios, serán validados en otra clase 
+            optionsLetters.put(pregunta, buttonsLetter);
+            optionsText.put(pos, textFields);
+                    
             //agregar al panel 
             panel.add(numeroPregunta);
             panel.add(campoPregunta);
         }
+        
         int heightPanel = grid[1];// height del panel para adaptarle un scroll bar
         // boton enviar form
         JButton boton = new JButton("Enviar"); // boton para enviar form
-        //agregar acción al boton
+        //agregar acción al boton -> Recoger datos
         boton.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-                //
+                //  Creamos la instancia donde enviaremos la validación -> pasamos paramtros y validamos 
+                ValidationTestTeacher validate = new ValidationTestTeacher(textQuestions, optionsLetters, optionsText);
             }
         });
         // agregar boton
