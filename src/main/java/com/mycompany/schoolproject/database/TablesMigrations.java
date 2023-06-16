@@ -7,10 +7,11 @@ public class TablesMigrations {
     
     ConnectionDataBase instance = new ConnectionDataBase();
     Connection conn = instance.conn();
+    static String[] tables = {"users"};
     
     public TablesMigrations()
     {
-        String[] request = {tableUsers()};
+        String[] request = {users()};
         for(String sql : request)
         {
             try
@@ -26,7 +27,7 @@ public class TablesMigrations {
         }        
     }
     
-    public static String tableUsers()
+    public static String users()
     {
         String query = "CREATE TABLE IF NOT EXISTS users("
                 + "id BIGINT AUTO_INCREMENT NOT NULL PRIMARY KEY,"
@@ -44,5 +45,10 @@ public class TablesMigrations {
     public static void tableExams()
     {
             //
+    }
+    
+    public String[] getTables()
+    {
+        return tables;
     }
 }

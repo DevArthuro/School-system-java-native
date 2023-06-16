@@ -4,6 +4,8 @@
  */
 package com.mycompany.schoolproject.views;
 
+import java.util.LinkedHashMap;
+import com.mycompany.schoolproject.caughtData.LoginWidgets;
 
 
 public class Login extends javax.swing.JFrame {
@@ -40,6 +42,12 @@ public class Login extends javax.swing.JFrame {
 
         String route = System.getProperty("user.dir");
         jLabel2.setIcon(new javax.swing.ImageIcon(route + "\\src\\main\\java\\com\\mycompany\\schoolproject\\files\\usuarioLogin.png"));
+
+        nameUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nameUserActionPerformed(evt);
+            }
+        });
 
         jLabel3.setText("Nombre de Usuario");
 
@@ -113,12 +121,22 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void sendFormActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendFormActionPerformed
-        // TODO add your handling code here:
+        LoginWidgets data = new LoginWidgets();
+        data.dataUser();
     }//GEN-LAST:event_sendFormActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+    private void nameUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameUserActionPerformed
+        
+    }//GEN-LAST:event_nameUserActionPerformed
+
+    public LinkedHashMap getData()
+    {
+        LinkedHashMap<String, Object> widgets = new LinkedHashMap<String,Object>();
+        widgets.put("nameUser", nameUser);
+        widgets.put("password", password);
+        widgets.put("rolUser", rolUser);
+        return widgets;
+    }
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

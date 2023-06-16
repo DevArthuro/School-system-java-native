@@ -107,6 +107,9 @@
       </AuxValues>
     </Component>
     <Component class="javax.swing.JTextField" name="nameUser">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="nameUserActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel3">
       <Properties>
