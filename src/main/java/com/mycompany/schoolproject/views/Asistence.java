@@ -3,7 +3,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package com.mycompany.schoolproject.views;
- 
+
+import com.mycompany.schoolproject.Schoolproject;
+
 public class Asistence extends javax.swing.JFrame {
 
     /**
@@ -12,6 +14,7 @@ public class Asistence extends javax.swing.JFrame {
     public Asistence() {
         MultimediaApi config = new MultimediaApi();
         config.config(this);
+        Schoolproject school = new Schoolproject();
         config.configPanelTop(this);
         initComponents();
     }

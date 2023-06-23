@@ -24,9 +24,8 @@ public class LoginWidgets {
         {{
             put("name", nameUser.getText());
             put("password", password.getText());
-            put("rol", rol == "-- Eligir Opción --" ? null : rol);
+            put("role", rol == "-- Eligir Opción --" ? null : rol);
         }};
-        
         return dataUserClean;
     }
 }

@@ -4,12 +4,14 @@
  */
 package com.mycompany.schoolproject.views;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.LinkedHashMap;
-import com.mycompany.schoolproject.caughtData.LoginWidgets;
-
+import logica.Authentication;
+import com.mycompany.schoolproject.Schoolproject;
 
 public class Login extends javax.swing.JFrame {
-
+    
     public Login() {
         MultimediaApi config = new MultimediaApi();
         config.config(this);
@@ -121,8 +123,11 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void sendFormActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendFormActionPerformed
-        LoginWidgets data = new LoginWidgets();
-        data.dataUser();
+        Authentication auth = new Authentication();
+        Schoolproject school = new Schoolproject();
+        school.instanceInicio().setVisible(auth.auth());
+        this.setVisible(!auth.auth());
+        school.instanceInicio().setDefaultCloseOperation(this.closeWindow(school.instanceInicio(), school.instanceLogin()));
     }//GEN-LAST:event_sendFormActionPerformed
 
     private void nameUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameUserActionPerformed
@@ -137,6 +142,24 @@ public class Login extends javax.swing.JFrame {
         widgets.put("rolUser", rolUser);
         return widgets;
     }
+    
+    public int closeWindow(Inicio root, Login login)
+    {
+        root.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                intercambioVentana(root, login);
+            }
+        });
+        return 0;
+    }
+    
+    public void intercambioVentana(Inicio root, Login login)
+    {
+        root.setVisible(false);
+        login.setVisible(true);
+    }
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

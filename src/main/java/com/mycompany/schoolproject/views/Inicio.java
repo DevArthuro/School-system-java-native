@@ -1,11 +1,13 @@
 package com.mycompany.schoolproject.views;
 
 import javax.swing.JPanel;
+import com.mycompany.schoolproject.Schoolproject;
 
 public class Inicio extends javax.swing.JFrame {
     
     public Inicio() 
     {
+        Schoolproject school = new Schoolproject();
         MultimediaApi config = new MultimediaApi();
         config.config(this);
         config.configPanelTop(this);

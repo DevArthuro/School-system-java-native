@@ -1,5 +1,7 @@
 package com.mycompany.schoolproject.views;
 
+import com.mycompany.schoolproject.Schoolproject;
+
 public class Qualifications extends javax.swing.JFrame {
 
     /**
@@ -8,6 +10,7 @@ public class Qualifications extends javax.swing.JFrame {
     public Qualifications() {
         MultimediaApi config = new MultimediaApi();
         config.config(this);
+        Schoolproject school = new Schoolproject();
         config.configPanelTop(this);
         initComponents();
     }

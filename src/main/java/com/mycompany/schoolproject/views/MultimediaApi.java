@@ -11,7 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-
+import com.mycompany.schoolproject.Schoolproject;
 
 public class MultimediaApi {
     public void config(JFrame root)
@@ -75,7 +75,8 @@ public class MultimediaApi {
         outside.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 // Acción a realizar cuando se hace clic en el JLabel
-                System.out.println("Salir");
+                Schoolproject school = new Schoolproject();
+                school.instanceLogin().intercambioVentana(school.instanceInicio(), school.instanceLogin());
             }
         });
         
