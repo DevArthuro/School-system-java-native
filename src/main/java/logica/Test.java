@@ -7,56 +7,12 @@ package logica;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
-
+import com.mycompany.schoolproject.database.ExecuteQuesries;
 
 public class Test {
-   public LinkedHashMap<String, LinkedHashMap<Integer, String>> llenado()
+   public LinkedHashMap<String, LinkedHashMap<Integer, String>> llenado(String document, String password)
    {
-       LinkedHashMap<String, LinkedHashMap<Integer, String>> schuldle = new LinkedHashMap<String, LinkedHashMap<Integer, String>>(){{
-            put("lunes", new LinkedHashMap<Integer, String>(){{
-                put(1, "");
-                put(2, "");
-                put(3, "");
-                put(4, "");
-                put(5, "");
-                put(6, "");
-            }});
-            put("martes", new LinkedHashMap<Integer, String>(){{
-                put(1, "");
-                put(2, "");
-                put(3, "");
-                put(4, "");
-                put(5, "");
-                put(6, "");
-            }});
-            put("miercoles", new LinkedHashMap<Integer, String>(){{
-                put(1, "");
-                put(2, "");
-                put(3, "Sociales");
-                put(4, "");
-                put(5, "");
-                put(6, "");
-            }});
-            put("jueves", new LinkedHashMap<Integer, String>(){{
-                put(1, "");
-                put(2, "");
-                put(3, "");
-                put(4, "");
-                put(5, "");
-                put(6, "");
-            }});
-            put("viernes", new LinkedHashMap<Integer, String>(){{
-                put(1, "");
-                put(2, "");
-                put(3, "");
-                put(4, "");
-                put(5, "");
-                put(6, "");
-            }});
-        }};
-
-       
-       return schuldle;
+       return new ExecuteQuesries().getSubjectsGroup(document, password);
    }
    
    public LinkedHashMap<String, String>  datosUser(Map<String, String> data)

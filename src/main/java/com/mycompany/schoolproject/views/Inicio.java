@@ -33,7 +33,12 @@ public class Inicio extends javax.swing.JFrame {
         Test seeder = new Test();
         config.privateData(this, seeder.datosUser(data));
         JPanel[] panel = {lunes, martes, miercoles, jueves,  viernes};
-        config.schuldleOrganice(panel, seeder.llenado());
+        config.schuldleOrganice(panel, seeder.llenado(document, password));
+    }
+    
+    public void insertNameInicio(String name)
+    {
+        texto_initial.setText("Bienvenido %s".formatted(name));
     }
     
     @SuppressWarnings("unchecked")
@@ -44,7 +49,7 @@ public class Inicio extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         changePhoto = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        texto_initial = new javax.swing.JLabel();
         tableInicio = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
         lunes = new javax.swing.JPanel();
@@ -75,8 +80,8 @@ public class Inicio extends javax.swing.JFrame {
         String route = System.getProperty("user.dir");
         changePhoto.setIcon(new javax.swing.ImageIcon(route + "\\src\\main\\java\\com\\mycompany\\schoolproject\\files\\changePorfilePhoto.png"));
 
-        jLabel2.setFont(new java.awt.Font("SansSerif", 1, 24)); // NOI18N
-        jLabel2.setText("Bienvenido -- Nombre persona --");
+        texto_initial.setFont(new java.awt.Font("SansSerif", 1, 24)); // NOI18N
+        texto_initial.setText("Bienvenido -- Nombre persona --");
 
         tableInicio.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -182,7 +187,7 @@ public class Inicio extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(162, 162, 162)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(texto_initial, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(29, 29, 29)
                         .addComponent(tableInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 480, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -200,7 +205,7 @@ public class Inicio extends javax.swing.JFrame {
                         .addComponent(changePhoto, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(texto_initial, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(tableInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(43, Short.MAX_VALUE))
@@ -247,7 +252,6 @@ public class Inicio extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel changePhoto;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -256,6 +260,7 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JPanel martes;
     private javax.swing.JPanel miercoles;
     private javax.swing.JTabbedPane tableInicio;
+    private javax.swing.JLabel texto_initial;
     private javax.swing.JPanel viernes;
     // End of variables declaration//GEN-END:variables
 }

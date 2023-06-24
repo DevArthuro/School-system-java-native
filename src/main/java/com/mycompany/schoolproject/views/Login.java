@@ -9,6 +9,8 @@ import java.awt.event.WindowEvent;
 import java.util.LinkedHashMap;
 import logica.Authentication;
 import com.mycompany.schoolproject.Schoolproject;
+import com.mycompany.schoolproject.database.ExecuteQuesries;
+import javax.swing.JOptionPane;
 
 public class Login extends javax.swing.JFrame {
     
@@ -131,6 +133,9 @@ public class Login extends javax.swing.JFrame {
             school.setInicio(inicio);
             school.instanceInicio().putPanelActor(auth.actorRequest());
             school.instanceInicio().insertDataPersonal(auth.getCredentials());
+            String nameUser = new ExecuteQuesries().getDataUser(auth.getCredentials().get("document"), auth.getCredentials().get("password")).get("name");
+            school.instanceInicio().insertNameInicio(nameUser);
+            JOptionPane.showMessageDialog(null, "Sesion Iniciada\nBienvenido %s".formatted(nameUser));
             school.instanceInicio().setVisible(auth.auth());
             this.setVisible(!auth.auth());
             school.instanceInicio().setDefaultCloseOperation(this.closeWindow(school));
@@ -156,6 +161,7 @@ public class Login extends javax.swing.JFrame {
         school.instanceInicio().addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
+                JOptionPane.showMessageDialog(null, "Sesion cerrada");
                 intercambioVentana(school);
             }
         });
