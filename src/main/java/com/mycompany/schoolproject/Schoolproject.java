@@ -11,8 +11,6 @@ public class Schoolproject {
         //TablesMigrations tables = new TablesMigrations();
         window = new Login();
         window.setVisible(true);
-        Inicio inicio = new Inicio();
-        windowInicio = inicio;
     }
     
     public Login instanceLogin()
@@ -23,6 +21,11 @@ public class Schoolproject {
     public Inicio instanceInicio()
     {
         return windowInicio;
+    }
+    
+    public void setInicio(Inicio root)
+    {
+        windowInicio = root;
     }
     
 }

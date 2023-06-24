@@ -76,7 +76,7 @@ public class MultimediaApi {
             public void mouseClicked(MouseEvent e) {
                 // Acción a realizar cuando se hace clic en el JLabel
                 Schoolproject school = new Schoolproject();
-                school.instanceLogin().intercambioVentana(school.instanceInicio(), school.instanceLogin());
+                school.instanceLogin().intercambioVentana(school);
             }
         });
         

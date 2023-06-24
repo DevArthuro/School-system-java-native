@@ -2,6 +2,7 @@ package com.mycompany.schoolproject.views;
 
 import javax.swing.JPanel;
 import com.mycompany.schoolproject.Schoolproject;
+import logica.Authentication;
 
 public class Inicio extends javax.swing.JFrame {
     
@@ -13,14 +14,19 @@ public class Inicio extends javax.swing.JFrame {
         config.configPanelTop(this);
         Test seeder = new Test();
         config.privateData(this, seeder.datosUser());
-        Restrictions privateShow = new Restrictions();
         initComponents();
-        JPanel panelActor = privateShow.tableReder(tableInicio, "profesor");
         JPanel[] panel = {lunes, martes, miercoles, jueves,  viernes};
         config.schuldleOrganice(panel, seeder.llenado());
         
     }
-
+    
+    public void putPanelActor(String actor)
+    {
+        Restrictions privateShow = new Restrictions();
+        JPanel panelActor = privateShow.tableReder(tableInicio, actor);
+    
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -224,7 +230,7 @@ public class Inicio extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Inicio().setVisible(true);
+                //
             }
         });
     }

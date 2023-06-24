@@ -78,6 +78,10 @@ public class Restrictions {
                 tabla.addTab("Pendientes", panel);
                 break;
             }
+            default ->
+            {
+                //
+            }
         }
         // Rertornamos el panel 
         return panel;

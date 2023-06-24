@@ -8,7 +8,8 @@ import com.mycompany.schoolproject.caughtData.LoginWidgets;
 import com.mycompany.schoolproject.database.ExecuteQuesries;
 
 public class Authentication {
-
+    boolean verify = false;
+    String actor;
     public boolean auth()
     {
         LoginWidgets lw = new LoginWidgets();
@@ -18,7 +19,21 @@ public class Authentication {
         String password = (String) lw.dataUser().get("password");
         String role = (String) lw.dataUser().get("role");
         boolean auth = db.requestDataUser(nameUser, role, password);
-        
+        if (auth)
+        {
+            verify = auth;
+            actor = role;
+        }
         return auth;
+    }
+    
+    public boolean userSystem()
+    {
+        return verify;
+    }
+    
+    public String actorRequest()
+    {
+        return actor;
     }
 }

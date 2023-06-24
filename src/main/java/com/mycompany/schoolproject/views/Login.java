@@ -125,9 +125,16 @@ public class Login extends javax.swing.JFrame {
     private void sendFormActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendFormActionPerformed
         Authentication auth = new Authentication();
         Schoolproject school = new Schoolproject();
-        school.instanceInicio().setVisible(auth.auth());
-        this.setVisible(!auth.auth());
-        school.instanceInicio().setDefaultCloseOperation(this.closeWindow(school.instanceInicio(), school.instanceLogin()));
+        if (auth.auth())
+        {
+            Inicio inicio = new Inicio();
+            school.setInicio(inicio);
+            school.instanceInicio().putPanelActor(auth.actorRequest());
+            school.instanceInicio().setVisible(auth.auth());
+            this.setVisible(!auth.auth());
+            school.instanceInicio().setDefaultCloseOperation(this.closeWindow(school));
+        }
+        
     }//GEN-LAST:event_sendFormActionPerformed
 
     private void nameUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameUserActionPerformed
@@ -143,21 +150,29 @@ public class Login extends javax.swing.JFrame {
         return widgets;
     }
     
-    public int closeWindow(Inicio root, Login login)
+    public int closeWindow(Schoolproject school)
     {
-        root.addWindowListener(new WindowAdapter() {
+        school.instanceInicio().addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                intercambioVentana(root, login);
+                intercambioVentana(school);
             }
         });
         return 0;
     }
     
-    public void intercambioVentana(Inicio root, Login login)
+    public void intercambioVentana(Schoolproject school)
     {
-        root.setVisible(false);
-        login.setVisible(true);
+        school.instanceInicio().dispose();
+        school.setInicio(null);
+        cleanLogin();
+        school.instanceLogin().setVisible(true);
+    }
+    
+    private void cleanLogin(){
+        nameUser.setText("");
+        password.setText("");
+        rolUser.setSelectedIndex(0);
     }
     
     public static void main(String args[]) {
