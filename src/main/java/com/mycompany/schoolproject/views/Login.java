@@ -130,6 +130,7 @@ public class Login extends javax.swing.JFrame {
             Inicio inicio = new Inicio();
             school.setInicio(inicio);
             school.instanceInicio().putPanelActor(auth.actorRequest());
+            school.instanceInicio().insertDataPersonal(auth.getCredentials());
             school.instanceInicio().setVisible(auth.auth());
             this.setVisible(!auth.auth());
             school.instanceInicio().setDefaultCloseOperation(this.closeWindow(school));
@@ -166,6 +167,7 @@ public class Login extends javax.swing.JFrame {
         school.instanceInicio().dispose();
         school.setInicio(null);
         cleanLogin();
+        new Authentication().resetUser();
         school.instanceLogin().setVisible(true);
     }
     

@@ -1,23 +1,20 @@
 package com.mycompany.schoolproject.views;
 
+import logica.Test;
 import javax.swing.JPanel;
 import com.mycompany.schoolproject.Schoolproject;
+import java.util.Map;
 import logica.Authentication;
+import com.mycompany.schoolproject.database.ExecuteQuesries;
 
 public class Inicio extends javax.swing.JFrame {
-    
+    MultimediaApi config;
     public Inicio() 
     {
-        Schoolproject school = new Schoolproject();
-        MultimediaApi config = new MultimediaApi();
+        config = new MultimediaApi();
         config.config(this);
         config.configPanelTop(this);
-        Test seeder = new Test();
-        config.privateData(this, seeder.datosUser());
-        initComponents();
-        JPanel[] panel = {lunes, martes, miercoles, jueves,  viernes};
-        config.schuldleOrganice(panel, seeder.llenado());
-        
+        initComponents();   
     }
     
     public void putPanelActor(String actor)
@@ -25,6 +22,18 @@ public class Inicio extends javax.swing.JFrame {
         Restrictions privateShow = new Restrictions();
         JPanel panelActor = privateShow.tableReder(tableInicio, actor);
     
+    }
+    
+    public void insertDataPersonal(Map<String, String> dataCredentials)
+    {
+
+        String document = dataCredentials.get("document");
+        String password = dataCredentials.get("password");
+        Map<String, String> data = new ExecuteQuesries().getDataUser(document, password);
+        Test seeder = new Test();
+        config.privateData(this, seeder.datosUser(data));
+        JPanel[] panel = {lunes, martes, miercoles, jueves,  viernes};
+        config.schuldleOrganice(panel, seeder.llenado());
     }
     
     @SuppressWarnings("unchecked")

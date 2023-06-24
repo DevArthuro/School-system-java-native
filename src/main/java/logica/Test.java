@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mycompany.schoolproject.views;
+package logica;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -59,13 +59,14 @@ public class Test {
        return schuldle;
    }
    
-   public LinkedHashMap<String, String>  datosUser()
+   public LinkedHashMap<String, String>  datosUser(Map<String, String> data)
    {
        LinkedHashMap<String, String> mapeo = new LinkedHashMap<String, String>(){{
-           put("nombre", "carlos\n");
-           put("identificación", "1089931383\n");
-           put("telefono", "3142158642");
-           
+           put("nombre", data.get("name"));
+           put("identificación", data.get("document"));
+           put("telefono", data.get("phone"));
+           put("Rol", data.get("role"));
+           put("vinculacion", data.get("start"));
        }};
        
        return mapeo;

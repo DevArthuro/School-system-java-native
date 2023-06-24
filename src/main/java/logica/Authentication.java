@@ -1,15 +1,13 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package logica;
 
 import com.mycompany.schoolproject.caughtData.LoginWidgets;
 import com.mycompany.schoolproject.database.ExecuteQuesries;
+import java.util.Map;
 
 public class Authentication {
     boolean verify = false;
     String actor;
+    Map<String, String> credentials = Map.of();
     public boolean auth()
     {
         LoginWidgets lw = new LoginWidgets();
@@ -23,6 +21,7 @@ public class Authentication {
         {
             verify = auth;
             actor = role;
+            credentials = Map.of("document", nameUser, "password", password);
         }
         return auth;
     }
@@ -35,5 +34,17 @@ public class Authentication {
     public String actorRequest()
     {
         return actor;
+    }
+    
+    public void resetUser()
+    {
+        actor = null;
+        verify = false;
+        credentials = Map.of();
+    }
+    
+    public Map<String, String> getCredentials()
+    {
+        return credentials;
     }
 }

@@ -3,10 +3,12 @@ package com.mycompany.schoolproject.database;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.Map;
 
 public class ExecuteQuesries {
     Connection conn = new ConnectionDataBase().conn();
     public static void main(String[] args) {
+        /*
         ExecuteQuesries queries = new ExecuteQuesries();
         String[] columns = {"name","document","phone_number","password","role"};
         String[] values = {"carlitos", "1089931334123283", "321313", "1234", "profesor"};
@@ -18,7 +20,12 @@ public class ExecuteQuesries {
         else
         {
             System.out.println("invalido");
-        }
+        }*/
+        
+        /*
+        ExecuteQuesries queries = new ExecuteQuesries();
+        queries.getDataUser("123456789", "12345");
+        */
     }
     
     public boolean insertData(String tableName, String[] columnNames, String[] valoresColumns) {
@@ -66,5 +73,30 @@ public class ExecuteQuesries {
         {
             return false;
         }
+    }
+    
+    public Map<String, String> getDataUser(String document, String password)
+    {
+        String query = "SELECT * FROM users WHERE document=%s AND password=%s".formatted(document, password);
+        try{
+            PreparedStatement ps = conn.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            rs.next();
+            Map<String, String> data = Map.of(
+                    "name", rs.getString("name"),
+                    "document", rs.getString("document"),
+                    "phone", rs.getString("phone_number"),
+                    "role",rs.getString("role"),
+                    "start", rs.getString("created_at")        
+            );
+            return data;
+           
+        }catch(Exception e)
+        {
+            System.out.println("Error -> "+e);
+            Map<String, String> data = Map.of();
+            return data;
+        }
+         
     }
 }
