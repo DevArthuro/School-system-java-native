@@ -1,11 +1,13 @@
 com\mycompany\schoolproject\views\Asistence$1.class
 com\mycompany\schoolproject\views\Inicio.class
 com\mycompany\schoolproject\views\Test$1$4.class
+logica\Authentication.class
 com\mycompany\schoolproject\views\Test$2.class
 com\mycompany\schoolproject\database\ConnectionDataBase.class
 com\mycompany\schoolproject\views\MultimediaApi$2.class
 com\mycompany\schoolproject\views\Qualifications$2.class
 com\mycompany\schoolproject\views\Qualifications$5.class
+com\mycompany\schoolproject\database\ExecuteQuesries.class
 com\mycompany\schoolproject\views\Asistence$3.class
 com\mycompany\schoolproject\views\Test$1$1.class
 logica\ValidationExamen.class
@@ -16,7 +18,9 @@ com\mycompany\schoolproject\views\Asistence.class
 com\mycompany\schoolproject\views\Login.class
 com\mycompany\schoolproject\views\Test$1$3.class
 com\mycompany\schoolproject\views\Restrictions$2.class
+com\mycompany\schoolproject\views\Login$3.class
 com\mycompany\schoolproject\views\MultimediaApi$3.class
+com\mycompany\schoolproject\caughtData\LoginWidgets.class
 com\mycompany\schoolproject\views\Asistence$2.class
 com\mycompany\schoolproject\views\Test.class
 logica\ValidationExamProgram$1.class
@@ -25,10 +29,12 @@ com\mycompany\schoolproject\views\Restrictions$1.class
 logica\ValidationTestTeacher.class
 com\mycompany\schoolproject\views\Inicio$1.class
 com\mycompany\schoolproject\Schoolproject.class
+com\mycompany\schoolproject\views\Login$4.class
 com\mycompany\schoolproject\views\Asistence$4.class
 com\mycompany\schoolproject\views\MakeToTheExams$1.class
 com\mycompany\schoolproject\views\MultimediaApi.class
 com\mycompany\schoolproject\views\Test$1$5.class
+com\mycompany\schoolproject\database\TablesMigrations.class
 com\mycompany\schoolproject\views\MultimediaApi$1.class
 com\mycompany\schoolproject\views\Qualifications$1.class
 com\mycompany\schoolproject\views\Login$2.class
@@ -36,6 +42,7 @@ com\mycompany\schoolproject\views\Qualifications.class
 com\mycompany\schoolproject\views\Restrictions$3.class
 com\mycompany\schoolproject\views\Asistence$5.class
 com\mycompany\schoolproject\views\Test$1$2.class
+com\mycompany\schoolproject\caughtData\LoginWidgets$1.class
 com\mycompany\schoolproject\views\Test$1.class
 com\mycompany\schoolproject\views\Restrictions.class
 com\mycompany\schoolproject\views\Qualifications$3.class

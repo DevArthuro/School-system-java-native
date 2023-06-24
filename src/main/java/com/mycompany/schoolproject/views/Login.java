@@ -64,7 +64,7 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
-        rolUser.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-- Eligir Opción --", "Profesor", "Estudiante " }));
+        rolUser.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-- Eligir Opción --", "Profesor", "Estudiante" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
