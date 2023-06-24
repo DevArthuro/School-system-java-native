@@ -8,7 +8,7 @@ public class Schoolproject {
     static Login window;
     static Inicio windowInicio;
     public static void main(String[] args) {
-        //TablesMigrations tables = new TablesMigrations();
+        TablesMigrations tables = new TablesMigrations();
         window = new Login();
         window.setVisible(true);
     }
