@@ -4,10 +4,7 @@
  */
 package com.mycompany.schoolproject.database;
 
-/**
- *
- * @author carli
- */
+
 public class Seeders {
     
 }

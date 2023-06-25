@@ -1,4 +1,4 @@
-package com.mycompany.schoolproject.database;
+ package com.mycompany.schoolproject.database;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -63,6 +63,7 @@ public class TablesMigrations {
 
         return query;
     }
+    
     
     public String[] getTables()
     {

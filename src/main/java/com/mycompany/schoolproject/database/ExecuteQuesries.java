@@ -80,7 +80,8 @@ public class ExecuteQuesries {
         */
     }
     
-    public boolean insertData(String tableName, String[] columnNames, String[] valoresColumns) {
+    public boolean insertData(String tableName, String[] columnNames, String[] valoresColumns) 
+    {
         for (int i = 0; i < valoresColumns.length; i++) // For para agregar comillas simples a los valores de la dbs
         {
             valoresColumns[i] = "'"+valoresColumns[i]+"'";
@@ -223,5 +224,22 @@ public class ExecuteQuesries {
         }
 
         return datasubjects;
+    }
+
+    public boolean requestDocumentExists(String document)
+    {
+        String query = "SELECT document FROM users WHERE document='%s';".formatted(document);
+        try{
+            ResultSet rs = conn.prepareStatement(query).executeQuery();
+            rs.next();
+            if (rs.getString("document") == null)
+            {
+                return false;
+            }
+            return true;
+        }catch(Exception e)
+        {
+            return false;
+        }
     }
 }

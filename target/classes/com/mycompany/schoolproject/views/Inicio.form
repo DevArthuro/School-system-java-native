@@ -39,7 +39,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <EmptySpace min="-2" pref="162" max="-2" attributes="0"/>
-                      <Component id="jLabel2" min="-2" pref="390" max="-2" attributes="0"/>
+                      <Component id="texto_initial" min="-2" pref="390" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
@@ -63,7 +63,7 @@
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="jLabel2" min="-2" pref="37" max="-2" attributes="0"/>
+                      <Component id="texto_initial" min="-2" pref="37" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="tableInicio" min="-2" pref="335" max="-2" attributes="0"/>
                   </Group>
@@ -109,7 +109,7 @@
         <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="String route = System.getProperty(&quot;user.dir&quot;);"/>
       </AuxValues>
     </Component>
-    <Component class="javax.swing.JLabel" name="jLabel2">
+    <Component class="javax.swing.JLabel" name="texto_initial">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="SansSerif" size="24" style="1"/>
