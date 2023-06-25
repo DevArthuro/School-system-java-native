@@ -158,36 +158,51 @@ public class ExecuteQuesries {
     public void insertSchudle(LinkedHashMap<String, LinkedHashMap<Integer, String>> schudle, String document, String password)
     {
         String id_user = this.getDataUser(document, password).get("id");
-        LinkedHashMap<Integer, String> monday = schudle.get("monday");
-        LinkedHashMap<Integer, String> tuesday = schudle.get("tuesday");
-        LinkedHashMap<Integer, String> wednesday = schudle.get("wednesday");
-        LinkedHashMap<Integer, String> thuesday = schudle.get("thuesday");
-        LinkedHashMap<Integer, String> friday = schudle.get("friday");
+        try{
+            ResultSet resultSet = conn.prepareStatement("SELECT COUNT(*) FROM schedule WHERE id_user='%s'".formatted(id_user)).executeQuery();
+            resultSet.next();
+            if (resultSet.getInt(1)<=0)
+            {
+                LinkedHashMap<Integer, String> monday = schudle.get("monday");
+                LinkedHashMap<Integer, String> tuesday = schudle.get("tuesday");
+                LinkedHashMap<Integer, String> wednesday = schudle.get("wednesday");
+                LinkedHashMap<Integer, String> thuesday = schudle.get("thuesday");
+                LinkedHashMap<Integer, String> friday = schudle.get("friday");
 
-        LinkedHashMap[] instanceSchedules = {monday, tuesday, wednesday, thuesday, friday};
-        String[] days = {"lunes", "martes", "miercoles", "jueves", "viernes"};
+                LinkedHashMap[] instanceSchedules = {monday, tuesday, wednesday, thuesday, friday};
+                String[] days = {"lunes", "martes", "miercoles", "jueves", "viernes"};
 
-        String[] time = new String[6];
-        int count = 0;
-        for (LinkedHashMap<Integer, String> item: instanceSchedules) 
+                String[] time = new String[6];
+                int count = 0;
+                for (LinkedHashMap<Integer, String> item: instanceSchedules) 
+                {
+                    for(int hour = 1; hour <= 6; hour++)
+                    {
+                        time[hour-1] = "'%s'".formatted((String) item.get(hour));
+                    }
+                    String values = String.join(",", time);
+                    String query = "INSERT INTO schedule"+ 
+                    "(id_user,day,one_time,second_time,third_time,fourth_time,fifth_time,sixth_time) VALUES"+
+                    "('%s','%s',%s)".formatted(id_user, days[count], values);
+                    try {
+                        PreparedStatement ps = this.conn.prepareStatement(query);
+                        ps.executeUpdate();
+                    }catch(Exception e)
+                    {
+                        System.out.println("Error -> " + e);
+                    }
+                    count ++;
+                }
+            }
+            else{
+                JOptionPane.showMessageDialog(null,"Ya tiene un horario asigando no puede crear mas");
+            }
+        }catch(Exception e)
         {
-            for(int hour = 1; hour <= 6; hour++)
-            {
-                time[hour-1] = "'%s'".formatted((String) item.get(hour));
-            }
-            String values = String.join(",", time);
-            String query = "INSERT INTO schedule"+ 
-            "(id_user,day,one_time,second_time,third_time,fourth_time,fifth_time,sixth_time) VALUES"+
-            "('%s','%s',%s)".formatted(id_user, days[count], values);
-            try {
-                PreparedStatement ps = this.conn.prepareStatement(query);
-                ps.executeUpdate();
-            }catch(Exception e)
-            {
-                System.out.println("Error -> " + e);
-            }
-            count ++;
+            System.out.println(e);
         }
+        
+        
     }
 
     public LinkedHashMap<String, LinkedHashMap<Integer, String>> getSubjectsGroup(String document, String password)
@@ -197,7 +212,7 @@ public class ExecuteQuesries {
         String[] days = {"lunes", "martes", "miercoles", "jueves", "viernes"};
         for (int i = 0; i < 5; i++) 
         {
-            String query = "SELECT * FROM schedule WHERE id_user='%s' AND day='%s'".formatted(id_ueser, days[0]);
+            String query = "SELECT * FROM schedule WHERE id_user='%s' AND day='%s'".formatted(id_ueser, days[i]);
             try {
                 PreparedStatement ps = this.conn.prepareStatement(query);
                 ResultSet rs = ps.executeQuery();

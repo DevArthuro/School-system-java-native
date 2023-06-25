@@ -5,15 +5,21 @@
 package com.mycompany.schoolproject.database.ManagementDataBase;
 
 import java.awt.List;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
-
+import javax.swing.JOptionPane;
+import com.mycompany.schoolproject.database.ExecuteQuesries;
+import java.util.Map;
 
 public class registreSchedule extends javax.swing.JFrame {
     registerUser rootBefore = null;
     registreSchedule root = null;
+    String actor; 
+    Map<String, String> credentials;
     String[] dataStudent = {
         "select",
         "Matemáticas", 
@@ -42,24 +48,45 @@ public class registreSchedule extends javax.swing.JFrame {
     public registreSchedule() {
         
         initComponents();
+        
     }
     
     public registreSchedule openWindow(registerUser rootBefore, registreSchedule instance)
     {
         this.rootBefore = rootBefore;
         this.root = instance;
+        this.root.setDefaultCloseOperation(closeWindow());
         return root;
     }
     
-    public void closeWindow()
+    public int closeWindow()
+    {
+        this.root.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                intercambio();
+                System.out.println("cerrar");
+            }
+        });
+        
+        return 0;
+        
+    }
+    
+    public void intercambio()
     {
         this.root.dispose();
         this.root = null;
+        this.actor = null;
+        this.credentials = Map.of();
+        
         this.rootBefore.setVisible(true);
     }
     
-    public void insertOptions(String actor)
+    public void insertOptions(String actor, String document, String password)
     {
+        credentials = Map.of("document", document, "password", password);
+        this.actor = actor;
         switch (actor)
         {
             case "estudiante" -> {
@@ -478,8 +505,33 @@ public class registreSchedule extends javax.swing.JFrame {
             }});
         }};
         
-        System.out.println(schedule);
-        closeWindow();
+        if (this.actor.equals("estudiante")){
+            boolean value = false;
+            for (LinkedHashMap<Integer, String> item : schedule.values())
+            {
+                for (int i = 0; i < 5; i++) 
+                {
+                    if (item.get(i) == "NULL")
+                    {
+                        JOptionPane.showMessageDialog(null, "Como estudiante no puedes tener un campo vacio");
+                        value = true;
+                        break;
+                    }
+                }
+            }
+            if (value != true)
+            {
+                new ExecuteQuesries().insertSchudle(schedule, this.credentials.get("document"), this.credentials.get("password"));
+                JOptionPane.showMessageDialog(null, "Guardado con exito");
+                intercambio();
+            }
+        }
+        
+        else{
+            new ExecuteQuesries().insertSchudle(schedule, this.credentials.get("document"), this.credentials.get("password"));
+            JOptionPane.showMessageDialog(null, "Guardado con exito");
+            intercambio();
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

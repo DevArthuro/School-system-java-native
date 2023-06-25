@@ -23,6 +23,11 @@ public class Schoolproject {
         return windowInicio;
     }
     
+    public void setLogin(Login root)
+    {
+        window = root;
+    }
+    
     public void setInicio(Inicio root)
     {
         windowInicio = root;

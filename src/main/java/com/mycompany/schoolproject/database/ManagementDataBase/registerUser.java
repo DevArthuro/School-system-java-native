@@ -7,6 +7,8 @@ package com.mycompany.schoolproject.database.ManagementDataBase;
 import java.util.LinkedHashMap;
 import javax.swing.JOptionPane;
 import com.mycompany.schoolproject.database.ExecuteQuesries;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 public class registerUser extends javax.swing.JFrame {
 
     /**
@@ -14,6 +16,7 @@ public class registerUser extends javax.swing.JFrame {
      */
     public registerUser() {
         initComponents();
+        
     }
 
     /**
@@ -145,12 +148,12 @@ public class registerUser extends javax.swing.JFrame {
                     new String[]{data.get("name"), data.get("document"), data.get("phone_number"), data.get("password"), data.get("role")}
             );
             JOptionPane.showMessageDialog(null, "Guardado con exito");
-            int option = JOptionPane.showConfirmDialog(null, "Desea asignar el horario?");
+            int option = JOptionPane.showConfirmDialog( null, "Desea asignar el horario?");
             if (option == 0)
             {
                 registreSchedule schedule = new registreSchedule();
                 schedule.openWindow(this, schedule);
-                schedule.insertOptions(data.get("role"));
+                schedule.insertOptions(data.get("role"), data.get("document"), data.get("password"));
                 schedule.setVisible(true);
                 this.setVisible(false);
             }
