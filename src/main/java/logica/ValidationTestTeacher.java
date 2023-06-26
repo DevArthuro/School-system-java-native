@@ -1,6 +1,8 @@
 package logica;
 
 import java.util.LinkedHashMap;
+import java.util.Set;
+import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
@@ -26,6 +28,7 @@ public class ValidationTestTeacher {
     // Función de impresión 
     public void print()
     {
+        boolean save = true;
         // Primera parte imprimir las preguntas 
         System.out.println("****** Estas son las preguntas *******");
         // Sacamos las llaves 
@@ -33,6 +36,11 @@ public class ValidationTestTeacher {
         {
             // Imprimimos y obtenemos el texto
             System.out.println(item + " : " + this.textosMain.get(item).getText());
+            if (this.textosMain.get(item).getText().trim().equals("")){
+                JOptionPane.showMessageDialog(null, "Los campos de preguntas deben ir diligenciados");
+                save = false;
+            }
+                
         }
         
         // Imprimir las respuestas correctas seleccionadas 
@@ -41,6 +49,7 @@ public class ValidationTestTeacher {
         for(int item : this.radioButtonsValidate.keySet())
         {
             // Sacamos los radio buttons ya que son 4 en una lista o array
+            int verify = 0;
             for(JRadioButton select : this.radioButtonsValidate.get(item))
             {
                 // Validamos cual está seleccionado
@@ -49,12 +58,33 @@ public class ValidationTestTeacher {
                     // Imprimimos el seleccionado 
                     System.out.println(item + " : " + select.getText());
                     // Cerramos ciclo y seguimos comparando otros radio buttons 
+                    verify += 1;
                     break;
                 }
+            }
+            if (verify == 4){
+                JOptionPane.showMessageDialog(null, "No tiene seleccionado algun JButton");
+                save = false;
             }
         }
         
         System.out.println("****** Imprimir los textos de cada JRadioButton *******");
         
+        for (int i = 1; i <= textEverRadioButton.size(); i++) 
+        {
+            System.out.println(textEverRadioButton);
+            System.out.println("para la pregunta %d\nEstan los siguientes textos en respuestas....".formatted(i));
+            for (JTextField item : textEverRadioButton.get(i))
+            {
+                if (item.getText().trim().equals("")){
+                    JOptionPane.showMessageDialog(null, "Los campos de respuesta deben estar diligenciados");
+                    save = false;
+                }
+                System.out.println(item.getText());
+            }
+            if(!save){
+                break;
+            }
+        }
     }
 }

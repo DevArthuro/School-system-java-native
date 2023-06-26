@@ -126,7 +126,7 @@ public class MakeToTheExams {
             }
             // Agregar elementos a diccionarios, serán validados en otra clase 
             optionsLetters.put(pregunta, buttonsLetter);
-            optionsText.put(pos, textFields);
+            optionsText.put(pregunta, textFields);
                     
             //agregar al panel 
             panel.add(numeroPregunta);
