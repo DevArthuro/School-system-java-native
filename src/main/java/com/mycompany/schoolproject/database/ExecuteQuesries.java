@@ -6,78 +6,13 @@ import java.sql.ResultSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import javax.swing.JOptionPane;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class ExecuteQuesries {
     Connection conn = new ConnectionDataBase().conn();
     public static void main(String[] args) {
-        /*
-        ExecuteQuesries queries = new ExecuteQuesries();
-        String[] columns = {"name","document","phone_number","password","role"};
-        String[] values = {"carlitos", "1089931334123283", "321313", "1234", "profesor"};
-
-        if (queries.requestDataUser("32132", "profesor", "1234"))
-        {
-            System.out.println("valido");
-        }
-        else
-        {
-            System.out.println("invalido");
-        }*/
         
-        /*
-        ExecuteQuesries queries = new ExecuteQuesries();
-        queries.getDataUser("123456789", "12345");
-        */
-        /*
-        ExecuteQuesries queries = new ExecuteQuesries();
-        LinkedHashMap<String, LinkedHashMap<Integer, String>> schedule = new LinkedHashMap<String, LinkedHashMap<Integer, String>>(){{
-            put("monday", new LinkedHashMap<Integer, String>(){{
-                put(1, "matematicas");
-                put(2,"ingles");
-                put(3,"quimica");
-                put(4,"fisica");
-                put(5,"historia");
-                put(6, "tecnologia");
-            }});
-            put("tuesday", new LinkedHashMap<Integer, String>(){{
-                put(1, "emprendimiento");
-                put(2,"matematicas");
-                put(3,"quimica");
-                put(4,"fisica");
-                put(5,"historia");
-                put(6, "tecnologia");
-            }});
-            put("wednesday", new LinkedHashMap<Integer, String>(){{
-                put(1, "ciencias naturales");
-                put(2,"ingles");
-                put(3,"sociales");
-                put(4,"fisica");
-                put(5,"historia");
-                put(6, "tecnologia");
-            }});
-            put("thuesday", new LinkedHashMap<Integer, String>(){{
-                put(1, "matematicas");
-                put(2,"ingles");
-                put(3,"quimica");
-                put(4,"fisica");
-                put(5,"historia");
-                put(6, "tecnologia");
-            }});
-            put("friday", new LinkedHashMap<Integer, String>(){{
-                put(1, "matematicas");
-                put(2,"ingles");
-                put(3,"quimica");
-                put(4,"fisica");
-                put(5,"historia");
-                put(6, "tecnologia");
-            }});
-        }};
-
-        queries.insertSchudle(schedule, "1089931383", "12345");
-        */
-        /* 
-        new ExecuteQuesries().getSubjectsGroup("1089931383", "12345");
-        */
     }
     
     public boolean insertData(String tableName, String[] columnNames, String[] valoresColumns) 
@@ -257,4 +192,30 @@ public class ExecuteQuesries {
             return false;
         }
     }
+    
+    public boolean insertExam(String document, String password, LinkedHashMap<String, String> data)
+    {   
+        String id_teacher = getDataUser(document,password).get("id");
+        //Normalizacion de la fechas 
+        String fechaString = data.get("fin");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy %s:%s".formatted(fechaString.split(" ")[1].split(":")[0].length() == 1 ? "H" : "HH",
+                fechaString.split(" ")[1].split(":")[1].length() == 1 ? "m" : "mm"));
+        LocalDateTime fecha = LocalDateTime.parse(fechaString, formatter);
+        System.out.println(fecha);
+        String fechaFormateada = fecha.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        String query = "INSERT INTO exams (id_teacher, title, number_question, max_submit, asignature) VALUES ('%s','%s','%s','%s','%s')".formatted(
+              id_teacher, data.get("name"), data.get("number"), fechaFormateada, data.get("asignature")        
+        );
+        try{
+            PreparedStatement ps = this.conn.prepareStatement(query);
+            ps.executeUpdate();
+            return true;
+        }catch (Exception e)
+        {
+            System.out.println(e);
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
 }

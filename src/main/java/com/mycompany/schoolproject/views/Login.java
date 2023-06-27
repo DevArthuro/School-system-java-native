@@ -14,7 +14,7 @@ import javax.swing.JOptionPane;
 import com.mycompany.schoolproject.database.ManagementDataBase.registerUser;
 
 public class Login extends javax.swing.JFrame {
-    
+    public Authentication auth;
     public Login() {
         MultimediaApi config = new MultimediaApi();
         config.config(this);
@@ -142,6 +142,7 @@ public class Login extends javax.swing.JFrame {
 
     private void sendFormActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendFormActionPerformed
         Authentication auth = new Authentication();
+        this.auth = auth;
         Schoolproject school = new Schoolproject();
         if (auth.auth())
         {

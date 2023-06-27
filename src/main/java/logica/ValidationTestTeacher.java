@@ -5,6 +5,9 @@ import java.util.Set;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
+import com.mycompany.schoolproject.database.ExecuteQuesries;
+import com.mycompany.schoolproject.Schoolproject;
+import java.util.Map;
 
 
 
@@ -14,6 +17,7 @@ public class ValidationTestTeacher {
     LinkedHashMap<Integer, JRadioButton[]> radioButtonsValidate;
     LinkedHashMap<Integer, JTextField[]> textEverRadioButton;
     LinkedHashMap<String, String> data;
+    int lenght;
     // Constructor que valida y inicializa las variables de clase 
     public ValidationTestTeacher(LinkedHashMap<Integer, JTextField> textosPreguntas, LinkedHashMap<Integer, JRadioButton[]> optionsLetters, LinkedHashMap<Integer, JTextField[]> optionsText, LinkedHashMap<String, String> data)
     {
@@ -22,6 +26,7 @@ public class ValidationTestTeacher {
         this.radioButtonsValidate = optionsLetters;
         this.textEverRadioButton = optionsText;
         this.data = data;
+        this.lenght = textosPreguntas.size();
         // Ejecutamos la función de impresión 
         this.validations();
     }
@@ -96,12 +101,19 @@ public class ValidationTestTeacher {
         if (save)
         {
             JOptionPane.showMessageDialog(null, "Todo listo");
-            System.out.println(this.data);
+            String document = new Schoolproject().instanceLogin().auth.credentials.get("document");
+            String password = new Schoolproject().instanceLogin().auth.credentials.get("password");
+            data.put("number", Integer.toString(this.lenght));
+            new ExecuteQuesries().insertExam(document, password, data);
         }
     }
     
     public void validate_exam()
     {
-        //
+        
+        for (int i = 1; i <= this.lenght; i++) 
+        {
+            
+        }
     }
 }
