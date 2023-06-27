@@ -54,6 +54,7 @@ public class ValidationExamProgram {
             {
                 if (this.numeroPreguntas != 0 && this.numeroPreguntas > 0)
                 {
+                    System.out.println(data);
                     exam.make(tabla, data, this.numeroPreguntas);
                 }
                 else
@@ -68,8 +69,7 @@ public class ValidationExamProgram {
         {
             JOptionPane.showConfirmDialog(null, "No asigno fecha de cierre");
         }
-        // Acá mandamos las variables a la ventana 
-        
+         
     }
     
     // Configuramos las fechas y retornamos
@@ -101,10 +101,8 @@ public class ValidationExamProgram {
                 yearBegin = Integer.parseInt(dateBegin[2].split(" ")[0]),
                 hourBegin = Integer.parseInt(dateBegin[2].replace("   ", " ").split(" ")[1].split(":")[0]),
                 minuteBegin = Integer.parseInt(dateBegin[2].replace("   ", " ").split(" ")[1].split(":")[1]);
-        
+
         // Aplicamos conversión de hora si hora es mayor a 12
-        hourFinish = hourBegin > 12 ? hourFinish = this.validateTime(hourFinish) : hourFinish;
-        
         
         
         // Imprimimos la fecha de inicio y limite 
@@ -120,22 +118,6 @@ public class ValidationExamProgram {
         return date;
     }
     
-    // Casteamos a hora militar
-    public int validateTime(int time) {
-        //diccionario para conversión
-        LinkedHashMap<Integer, Integer> militaryTime = new LinkedHashMap<Integer, Integer>();
-        
-        // metemos al diccionario la hora normal y equivalencia en hora militar
-        int militaryCount = 13;
-        for (int i = 1; i <= 12; i++) {
-            militaryTime.put(i, militaryCount);
-            // varificamos 24 ya que en hora militar es zero
-            militaryCount = militaryCount != 24 ? militaryCount + 1 : 0;
-        }
-        
-        // retornamos la conversiób 
-        return militaryTime.get(time);
-    }
     
     public boolean validateName(String name)
     {

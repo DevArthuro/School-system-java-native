@@ -141,7 +141,8 @@ public class MakeToTheExams {
         @Override
         public void actionPerformed(ActionEvent e) {
                 //  Creamos la instancia donde enviaremos la validación -> pasamos paramtros y validamos 
-                ValidationTestTeacher validate = new ValidationTestTeacher(textQuestions, optionsLetters, optionsText);
+                data.put("numero preguntas", numberQuestions.toString());
+                ValidationTestTeacher validate = new ValidationTestTeacher(textQuestions, optionsLetters, optionsText, data);
             }
         });
         // agregar boton

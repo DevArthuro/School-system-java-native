@@ -13,20 +13,21 @@ public class ValidationTestTeacher {
     LinkedHashMap<Integer, JTextField> textosMain;
     LinkedHashMap<Integer, JRadioButton[]> radioButtonsValidate;
     LinkedHashMap<Integer, JTextField[]> textEverRadioButton;
+    LinkedHashMap<String, String> data;
     // Constructor que valida y inicializa las variables de clase 
-    public ValidationTestTeacher(LinkedHashMap<Integer, JTextField> textosPreguntas, LinkedHashMap<Integer, JRadioButton[]> optionsLetters, LinkedHashMap<Integer, JTextField[]> optionsText)
+    public ValidationTestTeacher(LinkedHashMap<Integer, JTextField> textosPreguntas, LinkedHashMap<Integer, JRadioButton[]> optionsLetters, LinkedHashMap<Integer, JTextField[]> optionsText, LinkedHashMap<String, String> data)
     {
         // Las definimos con los parametros mandados por teclado 
         this.textosMain = textosPreguntas;
         this.radioButtonsValidate = optionsLetters;
         this.textEverRadioButton = optionsText;
-        
+        this.data = data;
         // Ejecutamos la función de impresión 
-        this.print();
+        this.validations();
     }
     
     // Función de impresión 
-    public void print()
+    public void validations()
     {
         boolean save = true;
         // Primera parte imprimir las preguntas 
@@ -39,6 +40,7 @@ public class ValidationTestTeacher {
             if (this.textosMain.get(item).getText().trim().equals("")){
                 JOptionPane.showMessageDialog(null, "Los campos de preguntas deben ir diligenciados");
                 save = false;
+                break;
             }
                 
         }
@@ -57,15 +59,18 @@ public class ValidationTestTeacher {
                 {
                     // Imprimimos el seleccionado 
                     System.out.println(item + " : " + select.getText());
-                    // Cerramos ciclo y seguimos comparando otros radio buttons 
-                    verify += 1;
-                    break;
+                    break; 
+                    
                 }
+                verify += 1;
+                
             }
             if (verify == 4){
                 JOptionPane.showMessageDialog(null, "No tiene seleccionado algun JButton");
                 save = false;
+                break;
             }
+            
         }
         
         System.out.println("****** Imprimir los textos de cada JRadioButton *******");
@@ -79,6 +84,7 @@ public class ValidationTestTeacher {
                 if (item.getText().trim().equals("")){
                     JOptionPane.showMessageDialog(null, "Los campos de respuesta deben estar diligenciados");
                     save = false;
+                    break;
                 }
                 System.out.println(item.getText());
             }
@@ -86,5 +92,16 @@ public class ValidationTestTeacher {
                 break;
             }
         }
+        
+        if (save)
+        {
+            JOptionPane.showMessageDialog(null, "Todo listo");
+            System.out.println(this.data);
+        }
+    }
+    
+    public void validate_exam()
+    {
+        //
     }
 }

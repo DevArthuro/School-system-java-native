@@ -7,11 +7,11 @@ public class TablesMigrations {
     
     ConnectionDataBase instance = new ConnectionDataBase();
     Connection conn = instance.conn();
-    static String[] tables = {"users", "schedule"};
+    static String[] tables = {"users", "schedule", "exams", "questions"};
     
     public TablesMigrations()
     {
-        String[] request = {users(), schedule()};
+        String[] request = {users(), schedule(), exams(), questions()};
         for(String sql : request)
         {
             try
@@ -64,7 +64,47 @@ public class TablesMigrations {
         return query;
     }
     
+    public static String exams()
+    {
+        String query = "CREATE TABLE IF NOT EXISTS exams("
+                + "id BIGINT AUTO_INCREMENT NOT NULL PRIMARY KEY,"
+                + "id_teacher BIGINT NOT NULL,"
+                + "INDEX (id_teacher),"
+                + "title VARCHAR(40),"
+                + "number_question INT NOT NULL,"
+                + "begin_submit DATE DEFAULT CURRENT_TIMESTAMP,"
+                + "max_submit DATE,"
+                + "status ENUM('activo', 'inactivo') DEFAULT 'activo',"
+                + "INDEX(id_teacher),"
+                + "asignature VARCHAR(60) NOT NULL,"
+                + "FOREIGN KEY (id_teacher) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,"
+                + "created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,"
+                + "updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"
+                + ") ENGINE=InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_spanish_ci;";
+        
+        return query;
+    }
     
+    public static String questions()
+    {
+        String query = "CREATE TABLE IF NOT EXISTS questions("
+                + "id BIGINT AUTO_INCREMENT NOT NULL PRIMARY KEY,"
+                + "id_exam BIGINT NOT NULL,"
+                + "INDEX (id_exam),"
+                + "number_question INT NOT NULL,"
+                + "contend VARCHAR(100) NOT NULL,"
+                + "answer_a VARCHAR(100) NOT NULL,"
+                + "answer_b VARCHAR(100) NOT NULL,"
+                + "answer_c VARCHAR(100) NOT NULL,"
+                + "answer_d VARCHAR(100) NOT NULL,"
+                + "letter_correct VARCHAR(1) NOT NULL,"
+                + "FOREIGN KEY (id_exam) REFERENCES exams(id) ON DELETE CASCADE ON UPDATE CASCADE,"
+                + "created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,"
+                + "updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"
+                + ")ENGINE=INNODB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_spanish_ci;";
+        return query;
+    }
+
     public String[] getTables()
     {
         return tables;

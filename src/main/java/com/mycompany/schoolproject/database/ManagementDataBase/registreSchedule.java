@@ -20,7 +20,7 @@ public class registreSchedule extends javax.swing.JFrame {
     registreSchedule root = null;
     String actor; 
     Map<String, String> credentials;
-    String[] dataStudent = {
+    public String[] dataStudent = {
         "select",
         "Matemáticas", 
         "Lenguaje", 

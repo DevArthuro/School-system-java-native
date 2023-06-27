@@ -21,6 +21,7 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import javax.swing.JSpinner;
 import logica.ValidationExamProgram;
+import com.mycompany.schoolproject.database.ManagementDataBase.registreSchedule;
 
 public class Restrictions {
     
@@ -111,7 +112,7 @@ public class Restrictions {
         // Se define un selector que hará las veces de seleccionar una materia
         // Se le asigna un modelo y se agrega al panel
         JComboBox materias = new JComboBox();
-        materias.setModel(new DefaultComboBoxModel<>(new String[] {"--Elija Materia--", "materia1", "materia2"}));
+        materias.setModel(new DefaultComboBoxModel<>(new registreSchedule().dataStudent));
         materias.setBounds(150, 65, 140, 30);
         panel.add(materias);
         
@@ -200,42 +201,42 @@ public class Restrictions {
     
     // Clase que lanza ventana emergente para seleccionar una fecha 
     public String giveDate() {
-        // Instanciamos Calendar para tener un formato de fecha 
-        Calendar calendar = Calendar.getInstance();
-        // Sacamos la fecha actual
-        LocalDate dateNow = LocalDate.now();
-        //insertamos en el calendario, las fechas actuales con la instancia de LocalDate
-        calendar.set(dateNow.getYear(), Calendar.DAY_OF_MONTH, dateNow.getDayOfMonth());
-        // Creamos un modelo de mostrar fecha le instertamos como fecha lo que definimos en calendar
-        /*
-        En los paratros hicimos lo siguiente 
-        - En valor insertamos la fecha actual 
-        - en comienzo y fin, lo anulamos 
-        - y en el ultimo modificamos el mes por el actual 
-        */
-        SpinnerDateModel dateModel = new SpinnerDateModel(calendar.getTime(), null, null, dateNow.getMonthValue());
-        // insertamos el modelo a un JSpinner 
-        JSpinner spinner = new JSpinner(dateModel);
-        // Le damos un formto al spinner para proyectar la fecha 
-        spinner.setEditor(new JSpinner.DateEditor(spinner, "dd-MM-yyyy - hh:mm")); // formato de fecha
-        //creamos el panel donde insertaremos el campo de JSppiner 
-        JPanel panel = new JPanel();
-        // Lo agregamos al panel 
-        panel.add(spinner);
-        // Definimos la ventana emergente y le insertamos el panel y le asignamos un boton unicamente 
-        int result = JOptionPane.showOptionDialog(null, panel, "Seleccione una fecha", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
-        
-        // validamos si le dio al boton 
-        if (result == JOptionPane.OK_OPTION) {
-            // Obtenemos lo que se puso en el Spinner en formato fecha
-            Date date = (Date) spinner.getValue();
-            // Definimos el formato que queremos captar, o el que el usuario entro en el campo
-            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy hh:mm"); // formato de fecha
-            return format.format(date); // retornamos la hora de cierre
-        } else {
-            return null;
-        }
+    // Instanciamos Calendar para tener un formato de fecha 
+    Calendar calendar = Calendar.getInstance();
+    // Sacamos la fecha actual
+    LocalDate dateNow = LocalDate.now();
+    //insertamos en el calendario, las fechas actuales con la instancia de LocalDate
+    calendar.set(dateNow.getYear(), Calendar.DAY_OF_MONTH, dateNow.getDayOfMonth());
+    // Creamos un modelo de mostrar fecha le instertamos como fecha lo que definimos en calendar
+    /*
+    En los paratros hicimos lo siguiente 
+    - En valor insertamos la fecha actual 
+    - en comienzo y fin, lo anulamos 
+    - y en el ultimo modificamos el mes por el actual 
+    */
+    SpinnerDateModel dateModel = new SpinnerDateModel(calendar.getTime(), null, null, dateNow.getMonthValue());
+    // insertamos el modelo a un JSpinner 
+    JSpinner spinner = new JSpinner(dateModel);
+    // Le damos un formto al spinner para proyectar la fecha 
+    spinner.setEditor(new JSpinner.DateEditor(spinner, "dd-MM-yyyy - HH:mm")); // formato de fecha con HH para horas de 0 a 23
+    //creamos el panel donde insertaremos el campo de JSppiner 
+    JPanel panel = new JPanel();
+    // Lo agregamos al panel 
+    panel.add(spinner);
+    // Definimos la ventana emergente y le insertamos el panel y le asignamos un boton unicamente 
+    int result = JOptionPane.showOptionDialog(null, panel, "Seleccione una fecha", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
+
+    // validamos si le dio al boton 
+    if (result == JOptionPane.OK_OPTION) {
+        // Obtenemos lo que se puso en el Spinner en formato fecha
+        Date date = (Date) spinner.getValue();
+        // Definimos el formato que queremos captar, o el que el usuario entro en el campo
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm"); // formato de fecha con HH para horas de 0 a 23
+        return format.format(date); // retornamos la hora de cierre
+    } else {
+        return null;
     }
+}
 
 
 }
