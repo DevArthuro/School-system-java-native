@@ -17,7 +17,7 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 
 public class MakeToTheExams {
-    public JPanel make(JTabbedPane table, LinkedHashMap<String, String> data, Integer numberQuestions)
+    public JScrollPane make(JTabbedPane table, LinkedHashMap<String, String> data, Integer numberQuestions)
     {
         // Creamos panel para poner examenes 
         JPanel panel = new JPanel();
@@ -137,12 +137,17 @@ public class MakeToTheExams {
         // boton enviar form
         JButton boton = new JButton("Enviar"); // boton para enviar form
         //agregar acción al boton -> Recoger datos
+        JScrollPane scrollPane = new JScrollPane(panel);
         boton.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
                 //  Creamos la instancia donde enviaremos la validación -> pasamos paramtros y validamos 
                 data.put("numero preguntas", numberQuestions.toString());
                 ValidationTestTeacher validate = new ValidationTestTeacher(textQuestions, optionsLetters, optionsText, data);
+                if (validate.validations())
+                {
+                    table.remove(table.indexOfComponent(scrollPane));
+                }
             }
         });
         // agregar boton
@@ -158,7 +163,7 @@ public class MakeToTheExams {
         panel.setPreferredSize(size);
         // Le damos un scroll bar al panel pra el desplazamiento 
         // Crear un JScrollPane y agregar el JPanel a él
-        JScrollPane scrollPane = new JScrollPane(panel);
+        
         // Le damos coordenadas al scroll pane
         scrollPane.setBounds(440, 0, 40, 304);
         // Evitamos el scroll horizontal
@@ -171,7 +176,7 @@ public class MakeToTheExams {
         // Agregamos el scrollpane a la tabla por que el scroll contiene el panel ya 
         table.addTab("Asignar preguntas", scrollPane);
         
-        return panel;
+        return scrollPane;
     }
     
     public void selectorsQuestions()

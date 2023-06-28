@@ -22,6 +22,11 @@ import java.util.LinkedHashMap;
 import javax.swing.JSpinner;
 import logica.ValidationExamProgram;
 import com.mycompany.schoolproject.database.ManagementDataBase.registreSchedule;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
+import com.mycompany.schoolproject.database.ExecuteQuesries;
+
 
 public class Restrictions {
     
@@ -44,14 +49,14 @@ public class Restrictions {
         JPanel panel = new JPanel();
         panel.setBackground(new java.awt.Color(231, 242, 255));
         // Le damos una dimensión al panel 
-        Dimension size = new Dimension(480, 304);
-        // Agregamos la dimensión que definimos 
-        panel.setPreferredSize(size);
         // Verificamos que tipo de rol es 
         switch (rol)
         {
             case "profesor" -> 
             {
+                Dimension size = new Dimension(480, 304);
+                // Agregamos la dimensión que definimos 
+                panel.setPreferredSize(size);
                 // si es profesor crea un panel de "programar examenes"
                 Font font = new Font("arial", Font.BOLD, 20);
                 JLabel tittlePanel = new JLabel("Programar Examenes");
@@ -75,8 +80,62 @@ public class Restrictions {
             }
             case "estudiante" -> 
             {
+                int ejeY = 0;
+                Font font = new Font("arial", Font.BOLD, 20);
+                JLabel tittlePanel = new JLabel("Responder Examenes");
+                tittlePanel.setFont(font);
+                ejeY += 10;
+                tittlePanel.setBounds(150,ejeY, 250, 50);
+                panel.add(tittlePanel);
+                LinkedHashMap<String, String> exams = new ExecuteQuesries().getAllExams();
+                for (String item : exams.keySet()) 
+                {
+                    LinkedHashMap<String, String> dataExam = new ExecuteQuesries().requestData(exams.get(item));
+                    Font fontTitle = new Font("arial", Font.BOLD, 13);
+                    JButton buttonExam = new JButton("presentar");
+                    ejeY += 70;
+                    buttonExam.setFont(fontTitle);
+                    buttonExam.setBounds(150,ejeY+20, 100, 20);
+                    
+                    buttonExam.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            // Llamar a la función uploadExam()
+                            new MakeToResponseExams().uploadExam(exams.get(item));
+                        }
+                    });
+                    JLabel title = new JLabel(item);
+                    title.setFont(fontTitle);
+                    
+                    title.setBounds(40,ejeY, 100, 50);
+                    Font fontdata = new Font("arial", Font.BOLD, 11);
+                    JLabel data = new JLabel("Profesor(a): %s".formatted(dataExam.get("teacher")));
+                    data.setFont(fontdata);
+                    data.setBounds(20,ejeY+20, 480, 50);
+                    JLabel dataAditional1 = new JLabel("titulo examen: %s, numero preguntas: %s, materia: %s".formatted(dataExam.get("title"), dataExam.get("questions"), dataExam.get("asignature")));
+                    dataAditional1.setFont(fontdata);
+                    dataAditional1.setBounds(20,ejeY+35, 480, 50);
+                    JLabel dataDates = new JLabel("Fechas -> inicio: %s, fin: %s".formatted(dataExam.get("inicio"), dataExam.get("fin")));
+                    dataDates.setFont(fontdata);
+                    dataDates.setBounds(20,ejeY+50, 480, 50);
+                    panel.add(buttonExam);
+                    panel.add(data);
+                    panel.add(dataAditional1);
+                    panel.add(dataDates);
+                    panel.add(title);
+                }
+                ejeY += 100;
+                Dimension size = new Dimension(480, ejeY);
+                // Agregamos la dimensión que definimos 
+                panel.setPreferredSize(size);
+                panel.setLayout(null);
+                // Añadimos un scroll bar al pendientes ya que pueden aver examenes 
+                JScrollPane scroll = new JScrollPane(panel);
+                scroll.setBounds(440, 0, 40, 304);
+                // Evitamos el scroll horizontal
+                scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
                 // Si es estudiante le damos un panel de pendientes 
-                tabla.addTab("Pendientes", panel);
+                tabla.addTab("Pendientes", scroll);
                 break;
             }
             default ->

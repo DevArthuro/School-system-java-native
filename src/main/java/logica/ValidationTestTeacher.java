@@ -8,6 +8,8 @@ import javax.swing.JTextField;
 import com.mycompany.schoolproject.database.ExecuteQuesries;
 import com.mycompany.schoolproject.Schoolproject;
 import java.util.Map;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 
 
@@ -18,6 +20,8 @@ public class ValidationTestTeacher {
     LinkedHashMap<Integer, JTextField[]> textEverRadioButton;
     LinkedHashMap<String, String> data;
     int lenght;
+    JScrollPane pane;
+    JPanel panelQuestions;
     // Constructor que valida y inicializa las variables de clase 
     public ValidationTestTeacher(LinkedHashMap<Integer, JTextField> textosPreguntas, LinkedHashMap<Integer, JRadioButton[]> optionsLetters, LinkedHashMap<Integer, JTextField[]> optionsText, LinkedHashMap<String, String> data)
     {
@@ -27,21 +31,18 @@ public class ValidationTestTeacher {
         this.textEverRadioButton = optionsText;
         this.data = data;
         this.lenght = textosPreguntas.size();
+        this.pane = pane;
+        this.panelQuestions = panelQuestions;
         // Ejecutamos la función de impresión 
-        this.validations();
     }
     
     // Función de impresión 
-    public void validations()
+    public boolean validations()
     {
         boolean save = true;
-        // Primera parte imprimir las preguntas 
-        System.out.println("****** Estas son las preguntas *******");
-        // Sacamos las llaves 
         for(int item : this.textosMain.keySet())
         {
             // Imprimimos y obtenemos el texto
-            System.out.println(item + " : " + this.textosMain.get(item).getText());
             if (this.textosMain.get(item).getText().trim().equals("")){
                 JOptionPane.showMessageDialog(null, "Los campos de preguntas deben ir diligenciados");
                 save = false;
@@ -50,9 +51,6 @@ public class ValidationTestTeacher {
                 
         }
         
-        // Imprimir las respuestas correctas seleccionadas 
-        System.out.println("****** Estas son las respuestas elegidas *******");
-        // Sacamos las llaves como tal 
         for(int item : this.radioButtonsValidate.keySet())
         {
             // Sacamos los radio buttons ya que son 4 en una lista o array
@@ -63,7 +61,6 @@ public class ValidationTestTeacher {
                 if (select.isSelected())
                 {
                     // Imprimimos el seleccionado 
-                    System.out.println(item + " : " + select.getText());
                     break; 
                     
                 }
@@ -78,12 +75,8 @@ public class ValidationTestTeacher {
             
         }
         
-        System.out.println("****** Imprimir los textos de cada JRadioButton *******");
-        
         for (int i = 1; i <= textEverRadioButton.size(); i++) 
         {
-            System.out.println(textEverRadioButton);
-            System.out.println("para la pregunta %d\nEstan los siguientes textos en respuestas....".formatted(i));
             for (JTextField item : textEverRadioButton.get(i))
             {
                 if (item.getText().trim().equals("")){
@@ -91,7 +84,6 @@ public class ValidationTestTeacher {
                     save = false;
                     break;
                 }
-                System.out.println(item.getText());
             }
             if(!save){
                 break;
@@ -104,16 +96,41 @@ public class ValidationTestTeacher {
             String document = new Schoolproject().instanceLogin().auth.credentials.get("document");
             String password = new Schoolproject().instanceLogin().auth.credentials.get("password");
             data.put("number", Integer.toString(this.lenght));
-            new ExecuteQuesries().insertExam(document, password, data);
+            int id_exam = new ExecuteQuesries().insertExam(document, password, data);
+            if (id_exam != -1){
+                return validate_exam(id_exam);
+            }
+                
         }
+        
+        return false;
     }
     
-    public void validate_exam()
+    public boolean validate_exam(int id_exam)
     {
+        try{
+            
         
         for (int i = 1; i <= this.lenght; i++) 
         {
+            String textQuestion = textosMain.get(i).getText();
+            LinkedHashMap<String, String> textLetters= new LinkedHashMap<String, String>();
+            String correctLetter = "";
+            for (int j = 0; j < 4; j++) 
+            {
+                if (radioButtonsValidate.get(i)[j].isSelected())
+                {
+                    correctLetter = radioButtonsValidate.get(i)[j].getText();
+                }
+                textLetters.put(radioButtonsValidate.get(i)[j].getText(), "'"+textEverRadioButton.get(i)[j].getText()+"'");
+            }
+            new ExecuteQuesries().insertQuestions(id_exam, i, textQuestion, String.join(", ", textLetters.values()), correctLetter);
             
+        }
+        return true;
+        }catch (Exception e){
+            System.out.println(e);
+            return false;
         }
     }
 }

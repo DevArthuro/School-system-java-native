@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 
 public class ValidationExamProgram {
@@ -54,8 +55,7 @@ public class ValidationExamProgram {
             {
                 if (this.numeroPreguntas != 0 && this.numeroPreguntas > 0)
                 {
-                    System.out.println(data);
-                    exam.make(tabla, data, this.numeroPreguntas);
+                    JScrollPane pane = exam.make(tabla, data, this.numeroPreguntas);
                 }
                 else
                 {
@@ -121,7 +121,6 @@ public class ValidationExamProgram {
     
     public boolean validateName(String name)
     {
-        System.out.println("nombre" + name);
         if (name == "")
         {
             return false;

@@ -1,5 +1,6 @@
 package com.mycompany.schoolproject.database;
 
+import java.sql.Array;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,11 +9,13 @@ import java.util.Map;
 import javax.swing.JOptionPane;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import logica.ResponseExams;
 
 public class ExecuteQuesries {
     Connection conn = new ConnectionDataBase().conn();
     public static void main(String[] args) {
-        
+        ExecuteQuesries queries = new ExecuteQuesries();
+        queries.getAllExams();
     }
     
     public boolean insertData(String tableName, String[] columnNames, String[] valoresColumns) 
@@ -193,15 +196,15 @@ public class ExecuteQuesries {
         }
     }
     
-    public boolean insertExam(String document, String password, LinkedHashMap<String, String> data)
+    public int insertExam(String document, String password, LinkedHashMap<String, String> data)
     {   
         String id_teacher = getDataUser(document,password).get("id");
         //Normalizacion de la fechas 
         String fechaString = data.get("fin");
+        System.out.println(fechaString.split(" ")[1].split(":")[0].length() == 1);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy %s:%s".formatted(fechaString.split(" ")[1].split(":")[0].length() == 1 ? "H" : "HH",
-                fechaString.split(" ")[1].split(":")[1].length() == 1 ? "m" : "mm"));
+        fechaString.split(" ")[1].split(":")[1].length() == 1 ? "m" : "mm"));
         LocalDateTime fecha = LocalDateTime.parse(fechaString, formatter);
-        System.out.println(fecha);
         String fechaFormateada = fecha.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         String query = "INSERT INTO exams (id_teacher, title, number_question, max_submit, asignature) VALUES ('%s','%s','%s','%s','%s')".formatted(
               id_teacher, data.get("name"), data.get("number"), fechaFormateada, data.get("asignature")        
@@ -209,13 +212,99 @@ public class ExecuteQuesries {
         try{
             PreparedStatement ps = this.conn.prepareStatement(query);
             ps.executeUpdate();
-            return true;
+            PreparedStatement psGet = this.conn.prepareStatement("SELECT MAX(id) FROM exams");
+            ResultSet rs = psGet.executeQuery();
+            rs.next();
+            return Integer.parseInt(rs.getString(1));
         }catch (Exception e)
         {
             System.out.println(e);
             e.printStackTrace();
-            return false;
+            return -1;
         }
     }
     
+    public void insertQuestions(int id_exam, int numberQuestion, String contend, String answers, String correct_letter)
+    {
+        String query = "INSERT INTO questions "
+                + "(id_exam,number_question,contend,answer_a,answer_b,answer_c,answer_d,letter_correct) "
+                + "VALUES "
+                + "('%d','%d','%s',%s,'%s')".formatted(id_exam, numberQuestion, contend, answers, correct_letter);
+        try{
+            PreparedStatement ps = this.conn.prepareStatement(query);
+            ps.executeUpdate();
+        }catch(Exception e){
+            System.out.println(e);
+            e.printStackTrace();
+        }
+    }
+    
+    public LinkedHashMap getAllExams()
+    {
+        LinkedHashMap<String, String> exams = new LinkedHashMap<String, String>();
+        ResponseExams dates = new ResponseExams();
+        String currentDate = dates.obtenerFechaActual();
+        
+        String query = "SELECT id,max_submit FROM exams WHERE status = 'activo';";
+        String queryCount = "SELECT COUNT(id) FROM exams WHERE status = 'activo';";
+        try{
+            PreparedStatement ps = this.conn.prepareStatement(query);
+            PreparedStatement psCount = this.conn.prepareStatement(queryCount);
+            ResultSet rsCount = psCount.executeQuery();
+            rsCount.next();
+            int count = rsCount.getInt(1);
+            ResultSet rs = ps.executeQuery();
+            rs.next();
+            for (int i = 1; i <= count; i++) {
+                String key = "exam"+i;
+                String dateFinish = rs.getString("max_submit");
+                if (dates.compararFechas(dateFinish, dates.obtenerFechaActual())){
+                    exams.put(key, rs.getString("id"));
+                }
+                else{
+                    String queryUpdate = "UPDATE exams SET status = 'inactivo' WHERE id = '%s';".formatted(rs.getString("id"));
+                    PreparedStatement psUpdate = this.conn.prepareStatement(queryUpdate);
+                    psUpdate.executeUpdate();
+                }
+                rs.next();
+            }
+            
+        }catch(Exception e)
+        {
+            System.out.println(e);
+            e.printStackTrace();
+        }
+        return exams;
+    }
+    
+    public LinkedHashMap requestData(String id)
+    {
+        String query = "SELECT id_teacher,title,number_question,begin_submit,max_submit,asignature FROM exams WHERE id='%s';".formatted(id);
+        
+        try{
+            PreparedStatement ps = this.conn.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            rs.next();
+            String id_teacher = rs.getString("id_teacher");
+            String queryNameTeacher = "SELECT (name) FROM users WHERE id='%s';".formatted(id_teacher);
+            PreparedStatement psName = this.conn.prepareStatement(queryNameTeacher);
+            ResultSet rsName = psName.executeQuery();
+            rsName.next();
+            String nameTeacher = rsName.getString("name");
+            LinkedHashMap<String, String> dataExam = new LinkedHashMap<String, String>(){{
+               put("teacher", nameTeacher);
+               put("title", rs.getString("title"));
+               put("questions", rs.getString("number_question"));
+               put("asignature", rs.getString("asignature"));
+               put("inicio", rs.getString("begin_submit"));
+               put("fin", rs.getString("max_submit"));
+            }};
+            return dataExam;
+        }catch (Exception e)
+        {
+            System.out.println(e);
+            e.printStackTrace();
+            return null;
+        }
+    }
 }
