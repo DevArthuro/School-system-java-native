@@ -101,7 +101,7 @@ public class Restrictions {
                         @Override
                         public void actionPerformed(ActionEvent e) {
                             // Llamar a la función uploadExam()
-                            new MakeToResponseExams().uploadExam(exams.get(item));
+                            new MakeToResponseExams().uploadExam(exams.get(item),Integer.parseInt(dataExam.get("questions")), tabla, dataExam);
                         }
                     });
                     JLabel title = new JLabel(item);

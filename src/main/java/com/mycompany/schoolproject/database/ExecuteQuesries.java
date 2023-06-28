@@ -307,4 +307,23 @@ public class ExecuteQuesries {
             return null;
         }
     }
+    
+    public ResultSet getQuestionsExam(String id)
+    {
+        String query = "SELECT * FROM questions WHERE id_exam='%s'".formatted(id);
+        try
+        {
+            PreparedStatement ps = this.conn.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            rs.next();
+            return rs;
+        }
+        catch(Exception e)
+        {
+            System.out.println(e);
+            e.printStackTrace();
+            ResultSet rs = null;
+            return rs;
+        }
+    }
 }

@@ -12,7 +12,7 @@ import java.util.Date;
 
 public class test {
     public static void main(String[] args) {
-        LocalDateTime time = LocalDateTime.now();
+        /*LocalDateTime time = LocalDateTime.now();
         String fechaString = "%d/%d/%d %d:%d".formatted(time.getYear(), time.getMonthValue(), time.getDayOfMonth(), time.getHour(), time.getMinute());
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/%s/%s %s:%s".formatted(fechaString.split(" ")[0].split("/")[1].length() == 1 ? "M" : "MM", fechaString.split(" ")[0].split("/")[2].length() == 1 ? "d" : "dd",fechaString.split(" ")[1].split(":")[0].length() == 1 ? "H" : "HH",
@@ -22,6 +22,8 @@ public class test {
 
         boolean resultado = compararFechas(fecha1, fecha2);
         System.out.println("¿La fecha izquierda es mayor que la fecha derecha? " + resultado);
+        */
+        System.out.println(5.0/3);
     }
     
     public static boolean compararFechas(String fechaIzquierda, String fechaDerecha) {
