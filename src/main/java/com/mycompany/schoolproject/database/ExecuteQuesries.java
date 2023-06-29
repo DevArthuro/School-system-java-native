@@ -370,4 +370,57 @@ public class ExecuteQuesries {
         }
     }
     
+    public String[][] dataExams()
+    {
+        String countRegister = "SELECT COUNT(id) FROM qualifications";
+        String getAllData = "SELECT * FROM qualifications";
+        try
+        {
+            ResultSet rs = this.conn.prepareStatement(countRegister).executeQuery();
+            rs.next();
+            int register = rs.getInt(1);
+            ResultSet rsData = this.conn.prepareStatement(getAllData).executeQuery();
+            rsData.next();
+            String[][] dataQualifications = new String[register][7];
+            for (int i = 0; i < register; i++) 
+            {
+                System.out.println(rsData.getString("id_student"));
+                System.out.println();
+                String name = getName(rsData.getString("id_student"), "users", "name");
+                dataQualifications[i][0] = name;
+                String exam = getName(rsData.getString("id_exam"), "exams", "title");
+                dataQualifications[i][1] = exam;
+                String qualification = rsData.getString("qualification");
+                dataQualifications[i][2] = qualification;
+                String corrects = rsData.getString("corrects");
+                dataQualifications[i][3] = corrects;
+                String incorrects = rsData.getString("incorrects");
+                dataQualifications[i][4] = incorrects;
+                String creado = rsData.getString("created_at");
+                dataQualifications[i][5] = creado;
+                rsData.next();
+            }
+            return dataQualifications;
+        }
+        catch(Exception e)
+        {
+            System.out.println(e);
+            e.printStackTrace();
+            return new String[][]{};
+        }
+    }
+    
+    public String getName(String id_user, String table, String column)
+    {
+        String query = "SELECT %s FROM %s WHERE id='%s';".formatted(column,table,id_user);
+        try{
+            ResultSet rs = this.conn.prepareStatement(query).executeQuery();
+            rs.next();
+            return rs.getString(1);
+        }catch(Exception e){
+            e.printStackTrace();
+            System.out.println(e);
+            return "";
+        }
+    }
 }

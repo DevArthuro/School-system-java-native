@@ -108,7 +108,7 @@ public class MakeToResponseExams {
             for(JLabel item : buttonsText)
             {
                 item.setFont(fontQuestions);
-                item.setBounds(85, ejeY+y, 40, 20);
+                item.setBounds(85, ejeY+y, 300, 20);
                 panel.add(item);
                 y+=20;
             }

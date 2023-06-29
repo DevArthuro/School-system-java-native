@@ -27,7 +27,7 @@ import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import com.mycompany.schoolproject.database.ExecuteQuesries;
 import com.mycompany.schoolproject.Schoolproject;
-
+import com.mycompany.schoolproject.database.ManagementDataBase.ShowQualifications;
 
 public class Restrictions {
     
@@ -65,6 +65,8 @@ public class Restrictions {
                 tittlePanel.setBounds(150, 10, 250, 50); // Ajusta la anchura a 200 para que se muestre completo
                 panel.add(tittlePanel);
                 JButton button = new JButton("Subir examen");
+                JButton buttonVerNotas = new JButton("Ver resultados");
+                buttonVerNotas.setBounds(180, 180, 140, 30);
                 button.setBounds(180, 150, 140, 30);
                 panel.setLayout(null);
                 // Agregar evento onClick
@@ -75,7 +77,19 @@ public class Restrictions {
                         uploadExam();
                     }
                 });
+                buttonVerNotas.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                      // Llamar a la función uploadExam()
+                        ShowQualifications ver = new ShowQualifications(buttonVerNotas);
+                        String[] title = {"Estudiante","Examen","calificación","Correctas","Incorrectas","Fecha de subida"};
+                        ver.setNewModel(title, new ExecuteQuesries().dataExams());
+                        ver.setVisible(true);
+                        buttonVerNotas.setEnabled(false);
+                    }
+                });
                 panel.add(button);
+                panel.add(buttonVerNotas);
                 tabla.addTab("Programar exámenes", panel);
                 break;
             }
