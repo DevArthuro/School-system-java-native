@@ -26,6 +26,7 @@ import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import com.mycompany.schoolproject.database.ExecuteQuesries;
+import com.mycompany.schoolproject.Schoolproject;
 
 
 public class Restrictions {
@@ -101,9 +102,13 @@ public class Restrictions {
                         @Override
                         public void actionPerformed(ActionEvent e) {
                             // Llamar a la función uploadExam()
-                            new MakeToResponseExams().uploadExam(exams.get(item),Integer.parseInt(dataExam.get("questions")), tabla, dataExam);
+                            new MakeToResponseExams().uploadExam(exams.get(item),Integer.parseInt(dataExam.get("questions")), tabla, dataExam,buttonExam);
                         }
                     });
+                    String document = new Schoolproject().instanceLogin().auth.getCredentials().get("document");
+                    String password = new Schoolproject().instanceLogin().auth.getCredentials().get("password");
+                    String id_user = new ExecuteQuesries().getDataUser(document, password).get("id");
+                    buttonExam.setEnabled(!new ExecuteQuesries().requestQualifications(id_user, exams.get(item)));
                     JLabel title = new JLabel(item);
                     title.setFont(fontTitle);
                     

@@ -326,4 +326,48 @@ public class ExecuteQuesries {
             return rs;
         }
     }
+    
+    public boolean insertDataQualifications(LinkedHashMap<String, String> data)
+    {
+        String query = "INSERT INTO qualifications (id_student,id_exam,qualification,corrects,incorrects) "
+                + "VALUES "
+                + "('%s','%s','%s','%s','%s')".formatted(
+                data.get("id_user"),
+                data.get("id_exam"),
+                data.get("qualification"),
+                data.get("correct"),
+                data.get("incorrects")
+                );
+        try{
+            this.conn.prepareStatement(query).executeUpdate();
+            return true;
+        }catch(Exception e)
+        {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
+    public boolean requestQualifications(String id_student, String id_exam)
+    {
+        String query = "SELECT COUNT(id) FROM qualifications WHERE id_student='%s' AND id_exam='%s'".formatted(id_student, id_exam);
+        try{
+            ResultSet rs = this.conn.prepareStatement(query).executeQuery();
+            rs.next();
+            if (rs.getInt(1)>0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }catch(Exception e)
+        {
+            e.printStackTrace();
+            System.out.println(e);
+            return false;
+        }
+    }
+    
 }

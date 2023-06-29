@@ -7,11 +7,11 @@ public class TablesMigrations {
     
     ConnectionDataBase instance = new ConnectionDataBase();
     Connection conn = instance.conn();
-    static String[] tables = {"users", "schedule", "exams", "questions"};
+    static String[] tables = {"users", "schedule", "exams", "questions", "qualifications"};
     
     public TablesMigrations()
     {
-        String[] request = {users(), schedule(), exams(), questions()};
+        String[] request = {users(), schedule(), exams(), questions(), qualifications()};
         for(String sql : request)
         {
             try
@@ -104,7 +104,25 @@ public class TablesMigrations {
                 + ")ENGINE=INNODB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_spanish_ci;";
         return query;
     }
-
+    
+    public static String qualifications()
+    {
+        String query = "CREATE TABLE IF NOT EXISTS qualifications("
+                + "id BIGINT PRIMARY KEY AUTO_INCREMENT NOT NULL,"
+                + "id_student BIGINT NOT NULL,"
+                + "id_exam BIGINT NOT NULL,"
+                + "INDEX (id_student),"
+                + "INDEX (id_exam),"
+                + "qualification FLOAT NOT NULL,"
+                + "corrects INT NOT NULL,"
+                + "incorrects INT NOT NULL,"
+                + "FOREIGN KEY (id_student) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,"
+                + "FOREIGN KEY (id_exam) REFERENCES exams(id) ON DELETE CASCADE ON UPDATE CASCADE,"
+                + "created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,"
+                + "updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"
+                + ")ENGINE=INNODB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_spanish_ci;";
+        return query;
+    }
     public String[] getTables()
     {
         return tables;

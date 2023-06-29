@@ -24,7 +24,7 @@ import logica.UploadAnswers;
 
 
 public class MakeToResponseExams {
-    public void uploadExam(String id_exam, int lenght, JTabbedPane table, LinkedHashMap<String, String> dataExam)
+    public void uploadExam(String id_exam, int lenght, JTabbedPane table, LinkedHashMap<String, String> dataExam, JButton buttonExam)
     {
         ResultSet data = new ExecuteQuesries().getQuestionsExam(id_exam);
         if (data == null)
@@ -32,6 +32,7 @@ public class MakeToResponseExams {
             JOptionPane.showMessageDialog(null, "Error al encontrar su examen");
         }
         else{
+        buttonExam.setEnabled(false);
             // Creamos panel para poner examenes 
         JPanel panel = new JPanel();
         // Poner color al panel 
@@ -129,6 +130,13 @@ public class MakeToResponseExams {
         JButton buttonSend = new JButton("Enviar");
         buttonSend.setFont(fontDate);
         buttonSend.setBounds(40, ejeY+10, 100, 30);
+        
+        panel.add(buttonSend);
+        ejeY+=60;
+        Dimension size = new Dimension(480, ejeY);
+        // Agregamos la dimensión que definimos 
+        panel.setPreferredSize(size);
+        JScrollPane scroll = new JScrollPane(panel);
         buttonSend.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -153,16 +161,10 @@ public class MakeToResponseExams {
                         if(validate)
                         {
                             JOptionPane.showMessageDialog(null, "Se subieron las respuestas");
-                            new UploadAnswers().validate(selected, id_exam);
+                            new UploadAnswers().validate(selected, id_exam, table,scroll);
                         }
                     }
                 });
-        panel.add(buttonSend);
-        ejeY+=60;
-        Dimension size = new Dimension(480, ejeY);
-        // Agregamos la dimensión que definimos 
-        panel.setPreferredSize(size);
-        JScrollPane scroll = new JScrollPane(panel);
         scroll.setBounds(440, 0, 40, 304);
         // Evitamos el scroll horizontal
         scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
