@@ -65,7 +65,6 @@ public class registreSchedule extends javax.swing.JFrame {
             @Override
             public void windowClosing(WindowEvent e) {
                 intercambio();
-                System.out.println("cerrar");
             }
         });
         
@@ -517,6 +516,10 @@ public class registreSchedule extends javax.swing.JFrame {
                         value = true;
                         break;
                     }
+                }
+                if(value==true)
+                {
+                    break;
                 }
             }
             if (value != true)

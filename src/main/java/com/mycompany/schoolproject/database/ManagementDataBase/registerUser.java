@@ -35,11 +35,11 @@ public class registerUser extends javax.swing.JFrame {
         jlabel5 = new javax.swing.JLabel();
         resgiter = new javax.swing.JButton();
         password = new javax.swing.JPasswordField();
-        phone_number = new javax.swing.JSpinner();
         name = new javax.swing.JTextField();
         select = new javax.swing.JComboBox<>();
         document = new javax.swing.JSpinner();
         jLabel1 = new javax.swing.JLabel();
+        phone = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -72,22 +72,18 @@ public class registerUser extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(49, 49, 49)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jlabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 90, Short.MAX_VALUE)
-                        .addComponent(phone_number, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jlabel5)
-                            .addComponent(Jlabel1)
-                            .addComponent(jlabel2)
-                            .addComponent(jlabel4))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(password)
-                            .addComponent(name)
-                            .addComponent(select, 0, 160, Short.MAX_VALUE)
-                            .addComponent(document, javax.swing.GroupLayout.Alignment.TRAILING))))
+                    .addComponent(jlabel5)
+                    .addComponent(Jlabel1)
+                    .addComponent(jlabel2)
+                    .addComponent(jlabel4)
+                    .addComponent(jlabel3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(password)
+                    .addComponent(name)
+                    .addComponent(select, 0, 160, Short.MAX_VALUE)
+                    .addComponent(document, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(phone))
                 .addGap(55, 55, 55))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -97,7 +93,7 @@ public class registerUser extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(129, 129, 129)
                         .addComponent(resgiter)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(139, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -112,19 +108,18 @@ public class registerUser extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jlabel2)
                     .addComponent(name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(27, 27, 27)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jlabel3)
+                    .addComponent(phone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(33, 33, 33)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jlabel3)
-                        .addGap(33, 33, 33)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jlabel4)
-                            .addComponent(select, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(30, 30, 30)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jlabel5)
-                            .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(phone_number, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jlabel4)
+                    .addComponent(select, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(30, 30, 30)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jlabel5)
+                    .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(45, 45, 45)
                 .addComponent(resgiter)
                 .addGap(43, 43, 43))
@@ -162,7 +157,7 @@ public class registerUser extends javax.swing.JFrame {
     
     public void cleanWidgets()
     {
-        phone_number.setValue(0);
+        phone.setText("");
         document.setValue(0);
         name.setText("");
         select.setSelectedIndex(0);
@@ -173,7 +168,7 @@ public class registerUser extends javax.swing.JFrame {
     {
         String nameUser = name.getText();
         String roleUser = select.getSelectedItem().toString();
-        String numberUser = phone_number.getValue().toString().equals("0") ? "" : phone_number.getValue().toString();
+        String numberUser = phone.getText().equals("") ? "" : phone.getText();
         String documentUser = document.getValue().toString().equals("0") ? "" : document.getValue().toString();
         String passwordUser = password.getText();
         
@@ -246,7 +241,7 @@ public class registerUser extends javax.swing.JFrame {
     private javax.swing.JLabel jlabel5;
     private javax.swing.JTextField name;
     private javax.swing.JPasswordField password;
-    private javax.swing.JSpinner phone_number;
+    private javax.swing.JTextField phone;
     private javax.swing.JButton resgiter;
     private javax.swing.JComboBox<String> select;
     // End of variables declaration//GEN-END:variables

@@ -44,33 +44,41 @@ public class ExecuteQuesries {
     
     public boolean requestDataUser(String document, String rol, String password)
     {
-        String query = "SELECT password FROM users WHERE document = '"+document+"' AND role = '"+rol+"';";
+        String query = "SELECT password, role FROM users WHERE document = '"+document+"';";
         try
         {
             PreparedStatement ps = this.conn.prepareStatement(query);
             ResultSet result = ps.executeQuery();
             result.next();
             String passwordDBS = result.getString(1);
-            if (password.equals(passwordDBS))
+            String roleDB = result.getString(2);
+            if (password.equals(passwordDBS) && rol.equals(roleDB))
             {
-                
                 return true;
             }
             else
             {
-                JOptionPane.showMessageDialog( null, "Contraseña incorrecta");
+                if (!password.equals(passwordDBS)){
+                    JOptionPane.showMessageDialog( null, "Contraseña incorrecta");
+                    
+                }
+                if (!rol.equals(roleDB)){
+                    JOptionPane.showMessageDialog(null, "Usted no es %s".formatted(rol));
+                }
                 return false;
             }
+            
         }
         catch(Exception e)
         {
+            JOptionPane.showMessageDialog(null, "Documento no valido");
             return false;
         }
     }
     
     public Map<String, String> getDataUser(String document, String password)
     {
-        String query = "SELECT * FROM users WHERE document=%s AND password=%s".formatted(document, password);
+        String query = "SELECT * FROM users WHERE document='%s' AND password='%s';".formatted(document, password);
         try{
             PreparedStatement ps = conn.prepareStatement(query);
             ResultSet rs = ps.executeQuery();
@@ -88,6 +96,7 @@ public class ExecuteQuesries {
         }catch(Exception e)
         {
             System.out.println("Error -> "+e);
+            e.printStackTrace();
             Map<String, String> data = Map.of();
             return data;
         }
@@ -138,6 +147,7 @@ public class ExecuteQuesries {
         }catch(Exception e)
         {
             System.out.println(e);
+            e.printStackTrace();
         }
         
         
@@ -202,7 +212,7 @@ public class ExecuteQuesries {
         //Normalizacion de la fechas 
         String fechaString = data.get("fin");
         System.out.println(fechaString.split(" ")[1].split(":")[0].length() == 1);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy %s:%s".formatted(fechaString.split(" ")[1].split(":")[0].length() == 1 ? "H" : "HH",
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("%s/%s/yyyy %s:%s".formatted(fechaString.split(" ")[0].split("/")[0].length() == 1 ? "d" : "dd",fechaString.split(" ")[0].split("/")[1].length() == 1 ? "M" : "MM",fechaString.split(" ")[1].split(":")[0].length() == 1 ? "H" : "HH",
         fechaString.split(" ")[1].split(":")[1].length() == 1 ? "m" : "mm"));
         LocalDateTime fecha = LocalDateTime.parse(fechaString, formatter);
         String fechaFormateada = fecha.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
